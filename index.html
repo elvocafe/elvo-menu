@@ -4,34 +4,192 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ELVO CAFE</title>
+
 <style>
-body{
+
+*{
 margin:0;
-background:#111;
-color:#fff;
-font-family:Arial,sans-serif;
+padding:0;
+box-sizing:border-box;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+body{
+background:#0f0f0f;
+color:white;
+}
+
+header{
+padding:60px 20px;
+text-align:center;
+background:linear-gradient(180deg,#111,#000);
+border-bottom:2px solid #d4af37;
+}
+
+.logo{
+width:110px;
+height:110px;
+border:2px solid #d4af37;
+border-radius:24px;
+margin:auto;
 display:flex;
-justify-content:center;
 align-items:center;
-height:100vh;
+justify-content:center;
+font-size:42px;
+color:#d4af37;
+margin-bottom:20px;
+}
+
+h1{
+font-size:42px;
+letter-spacing:3px;
+color:#d4af37;
+}
+
+.est{
+margin-top:8px;
+letter-spacing:6px;
+color:#888;
+}
+
+.hero{
+padding:40px 25px;
 text-align:center;
 }
-h1{
-color:#FFC107;
-font-size:42px;
-margin:0;
+
+.hero h2{
+font-size:30px;
+margin-bottom:15px;
 }
-p{
-font-size:20px;
-color:#ccc;
+
+.hero p{
+color:#bbb;
+line-height:1.7;
 }
+
+.button{
+display:inline-block;
+margin-top:30px;
+background:#d4af37;
+color:#111;
+padding:16px 34px;
+border-radius:40px;
+text-decoration:none;
+font-weight:bold;
+font-size:18px;
+}
+
+section{
+padding:30px 20px;
+}
+
+.title{
+font-size:30px;
+color:#d4af37;
+margin-bottom:20px;
+}
+
+.card{
+background:#1a1a1a;
+padding:18px;
+border-radius:20px;
+margin-bottom:18px;
+border:1px solid #2c2c2c;
+}
+
+.name{
+font-size:22px;
+font-weight:bold;
+margin-bottom:8px;
+}
+
+.price{
+color:#d4af37;
+font-size:22px;
+font-weight:bold;
+}
+
+footer{
+padding:50px 20px;
+text-align:center;
+color:#777;
+}
+
 </style>
+
 </head>
+
 <body>
-<div>
-<h1>ELVO CAFE</h1>
-<p>EST. 2023</p>
-<p>Меню обновляется...</p>
+
+<header>
+
+<div class="logo">
+🔥
 </div>
+
+<h1>ELVO CAFE</h1>
+
+<div class="est">
+EST. 2023
+</div>
+
+</header>
+
+<div class="hero">
+
+<h2>Цифрове меню</h2>
+
+<p>
+Ласкаво просимо до ELVO CAFE
+</p>
+
+<a href="#menu" class="button">
+Переглянути меню
+</a>
+
+</div>
+
+<section id="menu">
+
+<div class="title">
+🍕 Піца
+</div>
+
+<div class="card">
+<div class="name">Маргарита</div>
+<div class="price">219 ₴</div>
+</div>
+
+<div class="card">
+<div class="name">Пепероні</div>
+<div class="price">249 ₴</div>
+</div>
+
+<div class="title">
+🍣 Суші
+</div>
+
+<div class="card">
+<div class="name">Філадельфія</div>
+<div class="price">349 ₴</div>
+</div>
+
+<div class="title">
+🍟 Фритюр
+</div>
+
+<div class="card">
+<div class="name">Курячі нагетси</div>
+<div class="price">159 ₴</div>
+</div>
+
+</section>
+
+<footer>
+
+ELVO CAFE © 2023
+
+</footer>
+
 </body>
 </html>
