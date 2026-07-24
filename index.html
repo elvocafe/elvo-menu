@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#070707">
-<meta name="description" content="ELVO CAFE у Києві — піца, суші, закуски, кава та бар. вул. Урлівська, 11/44. Щодня з 10:00 до 21:45.">
+<meta name="description" content="ELVO CAFE у Києві — кава з 07:45, кухня з 10:00, пиво, вино та сидр до 23:00. вул. Урлівська, 11/44.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="uk_UA">
 <meta property="og:title" content="ELVO CAFE — смак, до якого хочеться повертатися">
@@ -30,8 +30,8 @@
   "openingHoursSpecification": [{
     "@type": "OpeningHoursSpecification",
     "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-    "opens": "10:00",
-    "closes": "21:45"
+    "opens": "07:45",
+    "closes": "23:00"
   }],
   "sameAs": ["https://www.instagram.com/elvocafe_/"]
 }
@@ -676,7 +676,12 @@ font-size:18px;
 .contact-label{display:block;margin-bottom:7px;color:#9d978a;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;}
 .contact-value{color:#f4eedf;font-size:17px;font-weight:700;line-height:1.45;text-decoration:none;}
 .contact-value:hover{color:#efd36e;}
-.open-status{display:inline-flex;align-items:center;gap:8px;margin-top:11px;padding:6px 10px;border:1px solid rgba(255,255,255,.10);border-radius:999px;color:#aaa49a;font-size:12px;font-weight:750;}
+.hours-list{display:grid;gap:11px;margin-top:5px;}
+.hours-row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:5px 10px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.07);}
+.hours-row:last-child{padding-bottom:0;border-bottom:0;}
+.hours-name{color:#f4eedf;font-size:15px;font-weight:750;}
+.hours-time{color:#efd36e;font-size:14px;font-weight:800;white-space:nowrap;}
+.open-status{grid-column:1 / -1;display:inline-flex;align-items:center;gap:8px;width:max-content;padding:5px 9px;border:1px solid rgba(255,255,255,.10);border-radius:999px;color:#aaa49a;font-size:11px;font-weight:750;}
 .open-status::before{content:"";width:7px;height:7px;border-radius:50%;background:#8c8780;box-shadow:0 0 0 4px rgba(140,135,128,.10);}
 .open-status.is-open{color:#bfe2aa;border-color:rgba(117,178,80,.28);}
 .open-status.is-open::before{background:#79bf4e;box-shadow:0 0 0 4px rgba(121,191,78,.12);}
@@ -1053,7 +1058,14 @@ ELVO CAFE • KYIV
 <div class="contact-grid">
 <div class="contact-item"><span class="contact-label">Адреса</span><div class="contact-value">вул. Урлівська, 11/44</div></div>
 <div class="contact-item"><span class="contact-label">Телефон</span><a class="contact-value" href="tel:+380681284268">+38 (068) 128-42-68</a></div>
-<div class="contact-item"><span class="contact-label">Години роботи</span><div class="contact-value">Щодня, 10:00–21:45</div><div class="open-status" id="open-status" aria-live="polite">Перевіряємо…</div></div>
+<div class="contact-item">
+<span class="contact-label">Години роботи</span>
+<div class="hours-list">
+<div class="hours-row"><span class="hours-name">Кава</span><span class="hours-time">07:45–21:00</span><span class="open-status" data-hours data-open="07:45" data-close="21:00" aria-live="polite">Перевіряємо…</span></div>
+<div class="hours-row"><span class="hours-name">Кухня</span><span class="hours-time">10:00–21:45</span><span class="open-status" data-hours data-open="10:00" data-close="21:45" aria-live="polite">Перевіряємо…</span></div>
+<div class="hours-row"><span class="hours-name">Пиво, вино, сидр</span><span class="hours-time">10:00–23:00</span><span class="open-status" data-hours data-open="10:00" data-close="23:00" aria-live="polite">Перевіряємо…</span></div>
+</div>
+</div>
 <div class="contact-item"><span class="contact-label">Instagram</span><a class="contact-value" href="https://www.instagram.com/elvocafe_/" target="_blank" rel="noopener">@elvocafe_</a></div>
 </div>
 <div class="contact-map">
@@ -1101,7 +1113,7 @@ ELVO CAFE • KYIV
 </div>
 <div class="footer-bottom">
 <span>© 2026 ELVO CAFE</span>
-<span>Щодня · 10:00–21:45</span>
+<span>Кава 07:45–21:00 · Кухня 10:00–21:45 · Бар 10:00–23:00</span>
 </div>
 </footer>
 
@@ -1114,7 +1126,7 @@ const backToTop = document.querySelector('.back-to-top');
 const menuSearch = document.querySelector('#menu-search-input');
 const searchStatus = document.querySelector('#search-status');
 const menuCards = [...document.querySelectorAll('#menu .card')];
-const openStatus = document.querySelector('#open-status');
+const openStatuses = [...document.querySelectorAll('[data-hours]')];
 
 const updateOpenStatus = () => {
   const parts = new Intl.DateTimeFormat('uk-UA', {
@@ -1126,10 +1138,17 @@ const updateOpenStatus = () => {
   const hour = Number(parts.find(part => part.type === 'hour').value);
   const minute = Number(parts.find(part => part.type === 'minute').value);
   const currentMinutes = hour * 60 + minute;
-  const isOpen = currentMinutes >= 10 * 60 && currentMinutes < 21 * 60 + 45;
 
-  openStatus.textContent = isOpen ? 'Відчинено зараз' : 'Зачинено зараз';
-  openStatus.classList.toggle('is-open', isOpen);
+  openStatuses.forEach(status => {
+    const [openHour, openMinute] = status.dataset.open.split(':').map(Number);
+    const [closeHour, closeMinute] = status.dataset.close.split(':').map(Number);
+    const opensAt = openHour * 60 + openMinute;
+    const closesAt = closeHour * 60 + closeMinute;
+    const isOpen = currentMinutes >= opensAt && currentMinutes < closesAt;
+
+    status.textContent = isOpen ? 'Відчинено зараз' : 'Зачинено зараз';
+    status.classList.toggle('is-open', isOpen);
+  });
 };
 
 updateOpenStatus();
