@@ -1,9 +1,41 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ELVO CAFE</title>
+<meta name="theme-color" content="#070707">
+<meta name="description" content="ELVO CAFE у Києві — піца, суші, закуски, кава та бар. вул. Урлівська, 11/44. Щодня з 10:00 до 21:45.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="uk_UA">
+<meta property="og:title" content="ELVO CAFE — смак, до якого хочеться повертатися">
+<meta property="og:description" content="Піца, суші, закуски, кава та бар на вул. Урлівській, 11/44 у Києві.">
+<link rel="icon" type="image/png" href="elvo-logo-web.png">
+<title>ELVO CAFE — піца та суші у Києві</title>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CafeOrCoffeeShop",
+  "name": "ELVO CAFE",
+  "image": "elvo-logo-web.png",
+  "telephone": "+380681284268",
+  "servesCuisine": ["Піца", "Суші", "Кава"],
+  "priceRange": "₴₴",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "вул. Урлівська, 11/44",
+    "addressLocality": "Київ",
+    "addressCountry": "UA"
+  },
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "opens": "10:00",
+    "closes": "21:45"
+  }],
+  "sameAs": ["https://www.instagram.com/elvocafe_/"]
+}
+</script>
 
 <style>
 
@@ -19,140 +51,720 @@ background:#0f0f0f;
 color:white;
 }
 
-header{
-padding:60px 20px;
-text-align:center;
-background:linear-gradient(180deg,#111,#000);
-border-bottom:2px solid #d4af37;
+html{
+scroll-behavior:smooth;
+scroll-padding-top:90px;
 }
 
-.logo{
-width:110px;
-height:110px;
-border:2px solid #d4af37;
-border-radius:24px;
+.topbar{
+position:fixed;
+top:0;
+left:0;
+right:0;
+z-index:100;
+border-bottom:1px solid rgba(255,255,255,.08);
+background:rgba(6,6,6,.76);
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+}
+
+.topbar-inner{
+width:min(1100px,calc(100% - 40px));
+min-height:72px;
 margin:auto;
 display:flex;
 align-items:center;
+justify-content:space-between;
+gap:22px;
+}
+
+.nav-brand{
+color:#efd36e;
+font-size:15px;
+font-weight:850;
+letter-spacing:3px;
+text-decoration:none;
+white-space:nowrap;
+}
+
+.nav-links{
+display:flex;
+align-items:center;
+gap:8px;
+list-style:none;
+}
+
+.nav-links a{
+display:block;
+padding:10px 14px;
+border-radius:999px;
+color:#d6d1c6;
+font-size:13px;
+font-weight:750;
+letter-spacing:.5px;
+text-decoration:none;
+transition:.2s ease;
+}
+
+.nav-links a:hover,
+.nav-links a:focus-visible{
+color:#17120a;
+background:#d4af37;
+outline:none;
+}
+
+.category-bar{
+position:sticky;
+top:72px;
+z-index:80;
+overflow-x:auto;
+scrollbar-width:none;
+border-bottom:1px solid rgba(255,255,255,.07);
+background:rgba(10,10,10,.92);
+backdrop-filter:blur(16px);
+-webkit-backdrop-filter:blur(16px);
+}
+
+.category-bar::-webkit-scrollbar{display:none;}
+
+.category-bar-inner{
+width:max-content;
+min-width:100%;
+padding:12px 20px;
+display:flex;
 justify-content:center;
-font-size:42px;
-color:#d4af37;
-margin-bottom:20px;
+gap:9px;
+}
+
+.category-bar a{
+padding:9px 15px;
+border:1px solid rgba(212,175,55,.24);
+border-radius:999px;
+color:#ddd7ca;
+font-size:13px;
+font-weight:750;
+white-space:nowrap;
+text-decoration:none;
+transition:.2s ease;
+}
+
+.category-bar a:hover,
+.category-bar a:focus-visible,
+.category-bar a.active{
+color:#17120a;
+border-color:#d4af37;
+background:#d4af37;
+outline:none;
+}
+
+.back-to-top{
+position:fixed;
+right:22px;
+bottom:22px;
+z-index:90;
+width:48px;
+height:48px;
+display:grid;
+place-items:center;
+border:1px solid rgba(212,175,55,.65);
+border-radius:50%;
+background:rgba(8,8,8,.84);
+color:#efd36e;
+font-size:22px;
+line-height:1;
+text-decoration:none;
+box-shadow:0 14px 34px rgba(0,0,0,.42);
+backdrop-filter:blur(12px);
+opacity:0;
+visibility:hidden;
+transform:translateY(12px);
+transition:.25s ease;
+}
+
+.back-to-top.visible{
+opacity:1;
+visibility:visible;
+transform:translateY(0);
+}
+
+.back-to-top:hover,
+.back-to-top:focus-visible{
+color:#151109;
+background:#d4af37;
+outline:none;
+}
+
+.mobile-actions{display:none;}
+
+header{
+min-height:100svh;
+padding:64px 20px 74px;
+text-align:center;
+background:
+linear-gradient(180deg,rgba(4,4,4,.38),rgba(4,4,4,.55) 58%,#070707 100%),
+linear-gradient(90deg,rgba(3,3,3,.45),rgba(3,3,3,.08),rgba(3,3,3,.28)),
+url("elvo-hero-v1.jpg") center 58% / cover no-repeat;
+border-bottom:1px solid rgba(212,175,55,.55);
+position:relative;
+overflow:hidden;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+}
+
+header::before{
+content:"";
+position:absolute;
+width:260px;
+height:260px;
+background:rgba(212,175,55,.10);
+border-radius:50%;
+filter:blur(60px);
+top:-150px;
+left:50%;
+transform:translateX(-50%);
+}
+
+.logo{
+width:min(250px,54vw);
+aspect-ratio:1;
+margin:0 auto 12px;
+display:flex;
+align-items:center;
+justify-content:center;
+position:relative;
+z-index:1;
+filter:drop-shadow(0 24px 44px rgba(0,0,0,.55));
+}
+
+.logo img{
+width:100%;
+height:100%;
+display:block;
+object-fit:contain;
 }
 
 h1{
-font-size:42px;
-letter-spacing:3px;
-color:#d4af37;
+font-size:clamp(38px,8vw,58px);
+letter-spacing:5px;
+color:#e7c65c;
+text-shadow:0 4px 25px rgba(212,175,55,.20);
 }
 
 .est{
-margin-top:8px;
-letter-spacing:6px;
-color:#888;
+margin-top:9px;
+letter-spacing:7px;
+font-size:12px;
+color:#8b8b8b;
+}
+
+.header-subtitle{
+margin-top:22px;
+color:#d4af37;
+font-size:12px;
+letter-spacing:3px;
 }
 
 .hero{
-padding:40px 25px;
+padding:0 24px;
 text-align:center;
+position:relative;
+z-index:1;
+text-shadow:0 3px 24px rgba(0,0,0,.95);
+}
+
+.hero-badge{
+display:inline-block;
+padding:8px 16px;
+border:1px solid rgba(212,175,55,.45);
+border-radius:999px;
+font-size:11px;
+letter-spacing:2px;
+color:#d4af37;
+margin-bottom:22px;
+background:rgba(212,175,55,.05);
 }
 
 .hero h2{
-font-size:30px;
-margin-bottom:15px;
+max-width:720px;
+margin:0 auto 18px;
+font-size:clamp(32px,7vw,54px);
+line-height:1.08;
+font-weight:750;
 }
 
 .hero p{
-color:#bbb;
+color:#f0ece3;
 line-height:1.7;
+font-size:17px;
+}
+
+.hero-actions{
+display:flex;
+justify-content:center;
+gap:14px;
+flex-wrap:wrap;
 }
 
 .button{
-display:inline-block;
-margin-top:30px;
-background:#d4af37;
+display:inline-flex;
+align-items:center;
+justify-content:center;
+margin-top:32px;
+background:linear-gradient(135deg,#f2d56f,#c89b28);
 color:#111;
-padding:16px 34px;
-border-radius:40px;
+padding:17px 36px;
+border-radius:999px;
 text-decoration:none;
-font-weight:bold;
-font-size:18px;
+font-weight:800;
+font-size:17px;
+box-shadow:
+0 14px 35px rgba(212,175,55,.24),
+inset 0 1px 0 rgba(255,255,255,.50);
+transition:.25s ease;
+}
+
+.button:hover{
+transform:translateY(-3px);
+box-shadow:0 20px 45px rgba(212,175,55,.34);
+}
+
+.button.secondary{
+background:rgba(5,5,5,.58);
+color:#f2d56f;
+border:1px solid #d4af37;
+box-shadow:0 14px 35px rgba(0,0,0,.30);
+backdrop-filter:blur(10px);
 }
 
 section{
-padding:30px 20px;
+max-width:900px;
+margin:auto;
+padding:55px 20px;
 }
 
 .title{
 font-size:30px;
-color:#d4af37;
-margin-bottom:20px;
+color:#e5c558;
+margin:35px 0 22px;
+padding-bottom:13px;
+border-bottom:1px solid rgba(212,175,55,.25);
 }
 
 .card{
-background:#1a1a1a;
-padding:18px;
+background:linear-gradient(145deg,#191919,#111);
+padding:20px 22px;
 border-radius:20px;
-margin-bottom:18px;
-border:1px solid #2c2c2c;
+margin-bottom:14px;
+border:1px solid rgba(212,175,55,.14);
+box-shadow:0 12px 30px rgba(0,0,0,.26);
+transition:.2s ease;
+}
+
+.card:hover{
+transform:translateY(-2px);
+border-color:rgba(212,175,55,.45);
 }
 
 .name{
-font-size:22px;
-font-weight:bold;
-margin-bottom:8px;
+font-size:20px;
+font-weight:700;
+margin-bottom:9px;
 }
 
 .price{
-color:#d4af37;
-font-size:22px;
-font-weight:bold;
+color:#e0bd4c;
+font-size:21px;
+font-weight:800;
 }
 
 footer{
-padding:50px 20px;
-text-align:center;
-color:#777;
+padding:54px 20px 26px;
+color:#a39e93;
+border-top:1px solid rgba(212,175,55,.16);
+background:#050505;
+}
+.footer-inner{width:min(1100px,100%);margin:auto;display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:36px;}
+.footer-brand{color:#efd36e;font-size:22px;font-weight:850;letter-spacing:4px;}
+.footer-est{margin-top:8px;color:#777268;font-size:11px;letter-spacing:4px;}
+.footer-text{max-width:360px;margin-top:18px;line-height:1.7;}
+.footer-title{margin-bottom:15px;color:#d4af37;font-size:11px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;}
+.footer-links{display:grid;gap:10px;list-style:none;}
+.footer-links a{color:#bbb5a9;text-decoration:none;line-height:1.5;}
+.footer-links a:hover,.footer-links a:focus-visible{color:#efd36e;outline:none;}
+.footer-bottom{width:min(1100px,100%);margin:40px auto 0;padding-top:20px;border-top:1px solid rgba(255,255,255,.07);display:flex;justify-content:space-between;gap:16px;color:#66625b;font-size:12px;}
+
+#menu{
+display:grid;
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:16px;
 }
 
+#menu .title{
+grid-column:1 / -1;
+}
+
+#menu .card{
+margin-bottom:0;
+}
+
+@media(max-width:700px){
+.footer-inner{grid-template-columns:1fr;gap:30px;}
+.footer-bottom{margin-top:32px;flex-direction:column;}
+
+body{padding-bottom:72px;}
+.back-to-top{right:14px;bottom:84px;width:44px;height:44px;}
+.mobile-actions{position:fixed;left:10px;right:10px;bottom:10px;z-index:95;display:grid;grid-template-columns:repeat(3,1fr);gap:5px;padding:6px;border:1px solid rgba(212,175,55,.28);border-radius:18px;background:rgba(7,7,7,.92);box-shadow:0 16px 45px rgba(0,0,0,.56);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);}
+.mobile-actions a{display:grid;place-items:center;min-height:48px;padding:7px 5px;border-radius:13px;color:#d9d3c7;font-size:11px;font-weight:800;text-align:center;text-decoration:none;}
+.mobile-actions a:first-child{color:#17120a;background:linear-gradient(135deg,#f2d56f,#c89b28);}
+.mobile-actions a:hover,.mobile-actions a:focus-visible{color:#17120a;background:#d4af37;outline:none;}
+
+.category-bar{top:64px;}
+.category-bar-inner{justify-content:flex-start;padding:10px 12px;}
+.category-bar a{padding:8px 12px;font-size:12px;}
+
+.topbar-inner{
+width:calc(100% - 24px);
+min-height:64px;
+gap:8px;
+}
+
+.nav-brand{
+font-size:12px;
+letter-spacing:1.8px;
+}
+
+.nav-links{
+gap:2px;
+}
+
+.nav-links a{
+padding:9px 8px;
+font-size:11px;
+}
+
+header{
+min-height:100svh;
+padding:48px 16px 58px;
+background-position:63% center;
+}
+
+.logo{
+width:min(205px,52vw);
+}
+
+.hero-actions{
+flex-direction:column;
+align-items:stretch;
+}
+
+.button{
+min-width:min(300px,82vw);
+margin-top:24px;
+}
+
+.button.secondary{
+margin-top:0;
+}
+
+#menu{
+grid-template-columns:1fr;
+}
+
+#menu .title{
+grid-column:auto;
+}
+}
+
+/* PREMIUM MENU */
+
+body{
+background:
+radial-gradient(circle at 50% 0%,rgba(164,119,22,.10),transparent 34%),
+#070707;
+}
+
+#menu{
+max-width:1100px;
+padding:75px 28px 90px;
+gap:18px;
+position:relative;
+}
+
+#menu::before{
+content:"НАШЕ МЕНЮ";
+grid-column:1 / -1;
+display:block;
+text-align:center;
+font-size:12px;
+font-weight:700;
+letter-spacing:7px;
+color:#c9a43c;
+margin-bottom:12px;
+}
+
+.menu-search{
+grid-column:1 / -1;
+position:relative;
+max-width:680px;
+width:100%;
+margin:0 auto 14px;
+}
+
+.menu-search input{
+width:100%;
+padding:17px 52px 17px 20px;
+border:1px solid rgba(212,175,55,.30);
+border-radius:16px;
+background:rgba(18,18,18,.92);
+color:#f5f2e9;
+font:inherit;
+font-size:16px;
+box-shadow:0 14px 36px rgba(0,0,0,.28);
+outline:none;
+transition:.2s ease;
+}
+
+.menu-search input::placeholder{color:#77736a;}
+.menu-search input:focus{border-color:#d4af37;box-shadow:0 0 0 3px rgba(212,175,55,.10),0 14px 36px rgba(0,0,0,.28);}
+.menu-search-icon{position:absolute;right:19px;top:50%;transform:translateY(-50%);color:#d4af37;font-size:19px;pointer-events:none;}
+.search-status{grid-column:1 / -1;text-align:center;color:#aaa49a;font-size:14px;}
+.search-status:empty{display:none;}
+.card.search-hidden{display:none!important;}
+
+#menu .title{
+grid-column:1 / -1;
+position:relative;
+margin:55px 0 16px;
+padding:22px 26px;
+border:1px solid rgba(218,180,71,.36);
+border-radius:18px;
+background:
+linear-gradient(135deg,rgba(212,175,55,.12),rgba(255,255,255,.015));
+box-shadow:
+inset 0 1px 0 rgba(255,255,255,.05),
+0 18px 45px rgba(0,0,0,.36);
+font-size:28px;
+font-weight:800;
+letter-spacing:1px;
+color:#efd36e;
+}
+
+#menu .title::after{
+content:"";
+position:absolute;
+left:26px;
+bottom:-1px;
+width:90px;
+height:2px;
+background:linear-gradient(90deg,#f2d46b,transparent);
+}
+
+#menu .card{
+min-height:112px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+position:relative;
+overflow:hidden;
+padding:25px 26px;
+border-radius:22px;
+background:
+linear-gradient(145deg,rgba(31,31,31,.98),rgba(13,13,13,.98));
+border:1px solid rgba(216,177,67,.22);
+box-shadow:
+0 20px 42px rgba(0,0,0,.34),
+inset 0 1px 0 rgba(255,255,255,.035);
+}
+
+#menu .card::before{
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:1px;
+background:linear-gradient(90deg,transparent,#d8b243,transparent);
+opacity:.65;
+}
+
+#menu .card::after{
+content:"";
+position:absolute;
+width:110px;
+height:110px;
+right:-65px;
+top:-65px;
+border-radius:50%;
+background:rgba(212,175,55,.07);
+filter:blur(5px);
+}
+
+#menu .card:hover{
+transform:translateY(-5px);
+border-color:rgba(238,201,90,.60);
+box-shadow:
+0 28px 58px rgba(0,0,0,.50),
+0 0 30px rgba(212,175,55,.08);
+}
+
+#menu .name{
+font-size:21px;
+line-height:1.3;
+font-weight:750;
+color:#f5f2e9;
+padding-right:95px;
+}
+
+#menu .price{
+position:absolute;
+right:25px;
+top:50%;
+transform:translateY(-50%);
+font-size:21px;
+font-weight:850;
+white-space:nowrap;
+color:#e8c655;
+text-shadow:0 0 20px rgba(212,175,55,.17);
+}
+
+@media(max-width:700px){
+
+#menu{
+padding:55px 16px 75px;
+gap:13px;
+}
+
+#menu::before{
+grid-column:auto;
+font-size:10px;
+letter-spacing:5px;
+}
+
+#menu .title{
+grid-column:auto;
+margin:38px 0 10px;
+padding:18px 20px;
+font-size:24px;
+}
+
+#menu .card{
+min-height:100px;
+padding:21px 20px;
+}
+
+#menu .name{
+font-size:18px;
+padding-right:90px;
+}
+
+#menu .price{
+right:19px;
+font-size:18px;
+}
+
+}
+
+/* CONTACTS */
+.contacts{max-width:1100px;margin:0 auto 90px;padding:0 28px;}
+.contacts-panel{position:relative;overflow:hidden;padding:48px;border:1px solid rgba(216,177,67,.34);border-radius:28px;background:radial-gradient(circle at 90% 0%,rgba(212,175,55,.15),transparent 35%),linear-gradient(145deg,#1b1914,#0c0c0c 65%);box-shadow:0 26px 65px rgba(0,0,0,.42);}
+.contacts-kicker{color:#d4af37;font-size:11px;font-weight:800;letter-spacing:5px;text-transform:uppercase;}
+.contacts h2{margin:10px 0 30px;font-size:clamp(34px,6vw,54px);line-height:1.05;color:#f5f1e7;}
+.contact-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;}
+.contact-item{padding:22px;border:1px solid rgba(255,255,255,.08);border-radius:18px;background:rgba(255,255,255,.025);}
+.contact-label{display:block;margin-bottom:7px;color:#9d978a;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;}
+.contact-value{color:#f4eedf;font-size:17px;font-weight:700;line-height:1.45;text-decoration:none;}
+.contact-value:hover{color:#efd36e;}
+.open-status{display:inline-flex;align-items:center;gap:8px;margin-top:11px;padding:6px 10px;border:1px solid rgba(255,255,255,.10);border-radius:999px;color:#aaa49a;font-size:12px;font-weight:750;}
+.open-status::before{content:"";width:7px;height:7px;border-radius:50%;background:#8c8780;box-shadow:0 0 0 4px rgba(140,135,128,.10);}
+.open-status.is-open{color:#bfe2aa;border-color:rgba(117,178,80,.28);}
+.open-status.is-open::before{background:#79bf4e;box-shadow:0 0 0 4px rgba(121,191,78,.12);}
+.contact-map{height:320px;margin-top:22px;overflow:hidden;border:1px solid rgba(212,175,55,.22);border-radius:20px;background:#111;}
+.contact-map iframe{width:100%;height:100%;display:block;border:0;filter:grayscale(.8) invert(.90) hue-rotate(180deg) contrast(.88);}
+.contact-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px;}
+.contact-actions .button{margin-top:0;}
+
+@media(max-width:700px){
+.contacts{margin-bottom:65px;padding:0 16px;}
+.contacts-panel{padding:30px 20px;border-radius:22px;}
+.contact-grid{grid-template-columns:1fr;}
+.contact-map{height:270px;border-radius:16px;}
+.contact-actions{flex-direction:column;}
+.contact-actions .button{width:100%;min-width:0;}
+}
+
+@media(prefers-reduced-motion:reduce){
+html{scroll-behavior:auto;}
+*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important;}
+}
 </style>
 
 </head>
 
 <body>
 
-<header>
+<nav class="topbar" aria-label="Головна навігація">
+<div class="topbar-inner">
+<a class="nav-brand" href="#top">ELVO CAFE</a>
+<ul class="nav-links">
+<li><a href="#top">Головна</a></li>
+<li><a href="#menu">Меню</a></li>
+<li><a href="#contacts">Контакти</a></li>
+</ul>
+</div>
+</nav>
+
+<header id="top">
 
 <div class="logo">
-🔥
+<img src="elvo-logo-web.png" alt="ELVO CAFE — EST. 2023" width="600" height="600" fetchpriority="high">
 </div>
 
-<h1>ELVO CAFE</h1>
+<div class="hero">
 
-<div class="est">
-EST. 2023
+<div class="hero-badge">
+ELVO CAFE • KYIV
+</div>
+
+<h2>
+Смак, до якого хочеться повертатися
+</h2>
+
+<p>
+Піца • Суші • Фритюр • Кава • Бар
+</p>
+
+<div class="hero-actions">
+<a href="#menu" class="button">Відкрити меню</a>
+<a href="#pizza" class="button secondary">Обрати піцу</a>
+</div>
+
 </div>
 
 </header>
 
-<div class="hero">
-
-<h2>Цифрове меню</h2>
-
-<p>
-Ласкаво просимо до ELVO CAFE
-</p>
-
-<a href="#menu" class="button">
-Переглянути меню
-</a>
-
+<nav class="category-bar" aria-label="Категорії меню">
+<div class="category-bar-inner">
+<a href="#sushi">🍣 Суші</a>
+<a href="#friture">🍟 Фритюр</a>
+<a href="#snacks">🥙 Закуски</a>
+<a href="#bar">🍺 Бар</a>
+<a href="#pizza">🍕 Піца</a>
 </div>
+</nav>
 
 <section id="menu">
 
-<div class="title">
+<div class="menu-search">
+<input id="menu-search-input" type="search" placeholder="Пошук страви або напою…" aria-label="Пошук у меню" autocomplete="off">
+<span class="menu-search-icon" aria-hidden="true">⌕</span>
+</div>
+<p class="search-status" id="search-status" aria-live="polite"></p>
+
+<div class="title" id="sushi">
 🍣 Суші
+</div>
 <div class="card">
 <div class="name">Гункан макі</div>
 <div class="price">99 ₴</div>
@@ -236,7 +848,7 @@ EST. 2023
   <div class="name">Боул з лососем</div>
   <div class="price">339 ₴</div>
 </div>
-<div class="title">
+<div class="title" id="friture">
 🍟 Фритюр
 </div>
 
@@ -279,8 +891,7 @@ EST. 2023
   <div class="name">ELVO Menu</div>
   <div class="price">290 ₴</div>
 </div>
-<div class="title">
-  <div class="title">
+<div class="title" id="snacks">
 🥙 Закуски
 </div>
 
@@ -298,7 +909,7 @@ EST. 2023
   <div class="name">Цезар з креветкою</div>
   <div class="price">299 ₴</div>
 </div>
-<div class="title">
+<div class="title" id="bar">
 🍺 Бар
 </div>
 
@@ -341,7 +952,7 @@ EST. 2023
   <div class="name">Prosecco Frizzante Сухе (Закарпаття)</div>
   <div class="price">144,99 ₴ / 1 кг</div>
 </div>
-🍕 Піца
+<div class="title" id="pizza">🍕 Піца
 </div>
 
 <div class="card">
@@ -435,11 +1046,132 @@ EST. 2023
 </div>
 </section>
 
+<section class="contacts" id="contacts">
+<div class="contacts-panel">
+<div class="contacts-kicker">Завітайте до нас</div>
+<h2>Контакти ELVO CAFE</h2>
+<div class="contact-grid">
+<div class="contact-item"><span class="contact-label">Адреса</span><div class="contact-value">вул. Урлівська, 11/44</div></div>
+<div class="contact-item"><span class="contact-label">Телефон</span><a class="contact-value" href="tel:+380681284268">+38 (068) 128-42-68</a></div>
+<div class="contact-item"><span class="contact-label">Години роботи</span><div class="contact-value">Щодня, 10:00–21:45</div><div class="open-status" id="open-status" aria-live="polite">Перевіряємо…</div></div>
+<div class="contact-item"><span class="contact-label">Instagram</span><a class="contact-value" href="https://www.instagram.com/elvocafe_/" target="_blank" rel="noopener">@elvocafe_</a></div>
+</div>
+<div class="contact-map">
+<iframe src="https://www.google.com/maps?q=%D0%B2%D1%83%D0%BB.%20%D0%A3%D1%80%D0%BB%D1%96%D0%B2%D1%81%D1%8C%D0%BA%D0%B0%2C%2011%2F44%2C%20%D0%9A%D0%B8%D1%97%D0%B2&amp;output=embed" title="ELVO CAFE на карті" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+</div>
+<div class="contact-actions">
+<a class="button" href="tel:+380681284268">Зателефонувати</a>
+<a class="button secondary" href="https://www.google.com/maps/search/?api=1&amp;query=%D0%B2%D1%83%D0%BB.%20%D0%A3%D1%80%D0%BB%D1%96%D0%B2%D1%81%D1%8C%D0%BA%D0%B0%2C%2011%2F44%2C%20%D0%9A%D0%B8%D1%97%D0%B2" target="_blank" rel="noopener">Прокласти маршрут</a>
+<a class="button secondary" href="https://www.instagram.com/elvocafe_/" target="_blank" rel="noopener">Instagram</a>
+</div>
+</div>
+</section>
+
+<nav class="mobile-actions" aria-label="Швидкі дії">
+<a href="tel:+380681284268">Подзвонити</a>
+<a href="https://www.google.com/maps/search/?api=1&amp;query=%D0%B2%D1%83%D0%BB.%20%D0%A3%D1%80%D0%BB%D1%96%D0%B2%D1%81%D1%8C%D0%BA%D0%B0%2C%2011%2F44%2C%20%D0%9A%D0%B8%D1%97%D0%B2" target="_blank" rel="noopener">Маршрут</a>
+<a href="https://www.instagram.com/elvocafe_/" target="_blank" rel="noopener">Instagram</a>
+</nav>
+
+<a class="back-to-top" href="#top" aria-label="Повернутися нагору">↑</a>
+
 <footer>
-
-ELVO CAFE © 2023
-
+<div class="footer-inner">
+<div>
+<div class="footer-brand">ELVO CAFE</div>
+<div class="footer-est">EST. 2023</div>
+<p class="footer-text">Місце, де зустрічаються улюблені смаки, тепла атмосфера та приємні моменти.</p>
+</div>
+<div>
+<div class="footer-title">Навігація</div>
+<ul class="footer-links">
+<li><a href="#top">Головна</a></li>
+<li><a href="#menu">Меню</a></li>
+<li><a href="#contacts">Контакти</a></li>
+</ul>
+</div>
+<div>
+<div class="footer-title">Зв’язатися</div>
+<ul class="footer-links">
+<li><a href="tel:+380681284268">+38 (068) 128-42-68</a></li>
+<li><a href="https://www.instagram.com/elvocafe_/" target="_blank" rel="noopener">Instagram · @elvocafe_</a></li>
+<li>вул. Урлівська, 11/44</li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<span>© 2026 ELVO CAFE</span>
+<span>Щодня · 10:00–21:45</span>
+</div>
 </footer>
+
+<script>
+const categoryLinks = [...document.querySelectorAll('.category-bar a')];
+const categoryHeadings = categoryLinks
+  .map(link => document.querySelector(link.getAttribute('href')))
+  .filter(Boolean);
+const backToTop = document.querySelector('.back-to-top');
+const menuSearch = document.querySelector('#menu-search-input');
+const searchStatus = document.querySelector('#search-status');
+const menuCards = [...document.querySelectorAll('#menu .card')];
+const openStatus = document.querySelector('#open-status');
+
+const updateOpenStatus = () => {
+  const parts = new Intl.DateTimeFormat('uk-UA', {
+    timeZone: 'Europe/Kyiv',
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23'
+  }).formatToParts(new Date());
+  const hour = Number(parts.find(part => part.type === 'hour').value);
+  const minute = Number(parts.find(part => part.type === 'minute').value);
+  const currentMinutes = hour * 60 + minute;
+  const isOpen = currentMinutes >= 10 * 60 && currentMinutes < 21 * 60 + 45;
+
+  openStatus.textContent = isOpen ? 'Відчинено зараз' : 'Зачинено зараз';
+  openStatus.classList.toggle('is-open', isOpen);
+};
+
+updateOpenStatus();
+setInterval(updateOpenStatus, 60000);
+
+menuSearch.addEventListener('input', () => {
+  const query = menuSearch.value.trim().toLocaleLowerCase('uk');
+  let visibleCount = 0;
+
+  menuCards.forEach(card => {
+    const matches = !query || card.textContent.toLocaleLowerCase('uk').includes(query);
+    card.classList.toggle('search-hidden', !matches);
+    if (matches) visibleCount += 1;
+  });
+
+  if (!query) searchStatus.textContent = '';
+  else if (visibleCount) searchStatus.textContent = `Знайдено позицій: ${visibleCount}`;
+  else searchStatus.textContent = 'Нічого не знайдено. Спробуйте іншу назву.';
+});
+
+const updateNavigation = () => {
+  const marker = window.scrollY + 190;
+  let activeId = categoryHeadings[0]?.id;
+
+  categoryHeadings.forEach(heading => {
+    if (heading.offsetTop <= marker) activeId = heading.id;
+  });
+
+  categoryLinks.forEach(link => {
+    const isActive = link.getAttribute('href') === `#${activeId}`;
+    link.classList.toggle('active', isActive);
+    if (isActive) link.setAttribute('aria-current', 'true');
+    else link.removeAttribute('aria-current');
+  });
+
+  backToTop.classList.toggle('visible', window.scrollY > 650);
+};
+
+window.addEventListener('scroll', updateNavigation, { passive: true });
+window.addEventListener('resize', updateNavigation);
+updateNavigation();
+</script>
 
 </body>
 </html>
