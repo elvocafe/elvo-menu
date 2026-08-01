@@ -660,6 +660,40 @@ color:#e8c655;
 text-shadow:0 0 20px rgba(212,175,55,.17);
 }
 
+#menu .featured-dish{
+grid-column:1 / -1;
+min-height:0;
+display:grid;
+grid-template-columns:minmax(230px,.9fr) minmax(0,1.1fr);
+align-items:stretch;
+padding:0;
+}
+
+.dish-photo{
+width:100%;
+height:100%;
+min-height:300px;
+display:block;
+object-fit:cover;
+}
+
+.dish-content{
+position:relative;
+display:flex;
+flex-direction:column;
+justify-content:center;
+padding:34px 125px 34px 30px;
+}
+
+.dish-description{
+margin:12px 0 0;
+color:#aaa49a;
+font-size:15px;
+line-height:1.6;
+}
+
+#menu .featured-dish .price{right:30px;}
+
 @media(max-width:700px){
 
 #menu{
@@ -699,6 +733,28 @@ padding-right:0;
 position:static;
 transform:none;
 font-size:18px;
+}
+
+#menu .featured-dish{
+grid-column:auto;
+display:flex;
+padding:0;
+gap:0;
+}
+
+.dish-photo{
+height:230px;
+min-height:0;
+}
+
+.dish-content{
+width:100%;
+padding:20px;
+}
+
+.dish-description{
+margin-top:8px;
+font-size:14px;
 }
 
 }
@@ -894,10 +950,14 @@ ELVO CAFE • KYIV
 <div class="price">290 ₴</div>
 </div>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="kaliforniia-snizhnyi-krab.jpg" alt="Каліфорнія Сніжний краб в ікрі" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Каліфорнія Сніжний краб в ікрі</div>
+<p class="dish-description">Рис «Японіка», норі, сир «Філадельфія», краб, хіяші-салат, ікра.</p>
 <div class="price">285 ₴</div>
 </div>
+</article>
 <div class="card">
   <div class="name">Суші бургер</div>
   <div class="price">319 ₴</div>
