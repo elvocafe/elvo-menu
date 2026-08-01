@@ -338,6 +338,31 @@ box-shadow:0 14px 35px rgba(0,0,0,.30);
 backdrop-filter:blur(10px);
 }
 
+.order-chooser{
+max-width:1100px;
+margin:0 auto;
+padding:72px 28px 10px;
+}
+
+.order-panel{
+padding:42px;
+border:1px solid rgba(216,177,67,.34);
+border-radius:28px;
+background:radial-gradient(circle at 50% 0%,rgba(212,175,55,.14),transparent 42%),linear-gradient(145deg,#1b1914,#0c0c0c 68%);
+box-shadow:0 26px 65px rgba(0,0,0,.38);
+text-align:center;
+}
+
+.order-kicker{color:#d4af37;font-size:11px;font-weight:800;letter-spacing:5px;text-transform:uppercase;}
+.order-chooser h2{margin:10px 0 12px;font-size:clamp(32px,6vw,50px);line-height:1.08;color:#f5f1e7;}
+.order-copy{max-width:650px;margin:0 auto 28px;color:#aaa69c;font-size:16px;line-height:1.65;}
+.order-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;}
+.order-option{padding:30px 24px;border:1px solid rgba(255,255,255,.09);border-radius:22px;background:rgba(255,255,255,.025);}
+.order-icon{display:block;margin-bottom:12px;font-size:36px;}
+.order-option h3{margin-bottom:8px;color:#efd36e;font-size:23px;}
+.order-option p{min-height:48px;color:#9f9a90;line-height:1.5;}
+.order-option .button{margin-top:22px;min-width:210px;}
+
 section{
 max-width:900px;
 margin:auto;
@@ -410,6 +435,12 @@ margin-bottom:0;
 }
 
 @media(max-width:700px){
+.order-chooser{padding:48px 16px 4px;}
+.order-panel{padding:30px 18px;border-radius:22px;}
+.order-grid{grid-template-columns:1fr;}
+.order-option{padding:25px 18px;}
+.order-option .button{width:100%;min-width:0;}
+
 .footer-inner{grid-template-columns:1fr;gap:30px;}
 .footer-bottom{margin-top:32px;flex-direction:column;}
 
@@ -742,7 +773,7 @@ ELVO CAFE • KYIV
 
 <div class="hero-actions">
 <a href="#menu" class="button">Відкрити меню</a>
-<a href="#pizza" class="button secondary">Обрати піцу</a>
+<a href="#order" class="button secondary">Доставка / Самовивіз</a>
 </div>
 
 </div>
@@ -758,6 +789,28 @@ ELVO CAFE • KYIV
 <a href="#pizza">🍕 Піца</a>
 </div>
 </nav>
+
+<section class="order-chooser" id="order">
+<div class="order-panel">
+<div class="order-kicker">Замовлення ELVO CAFE</div>
+<h2>Як бажаєте отримати замовлення?</h2>
+<p class="order-copy">Оберіть зручний спосіб. Поки ми підключаємо кошик та онлайн-оплату, замовлення приймаємо телефоном.</p>
+<div class="order-grid">
+<article class="order-option">
+<span class="order-icon" aria-hidden="true">🚗</span>
+<h3>Доставка</h3>
+<p>Зателефонуйте, уточніть адресу та умови доставки.</p>
+<a class="button" href="tel:+380681284268">Замовити доставку</a>
+</article>
+<article class="order-option">
+<span class="order-icon" aria-hidden="true">🥡</span>
+<h3>Самовивіз</h3>
+<p>Замовте заздалегідь і заберіть у кафе на вул. Урлівській, 11/44.</p>
+<a class="button secondary" href="tel:+380681284268">Замовити самовивіз</a>
+</article>
+</div>
+</div>
+</section>
 
 <section id="menu">
 
