@@ -694,6 +694,69 @@ line-height:1.6;
 
 #menu .featured-dish .price{right:30px;}
 
+.add-to-cart{
+align-self:flex-start;
+margin-top:18px;
+padding:11px 18px;
+border:1px solid #d4af37;
+border-radius:999px;
+background:#d4af37;
+color:#17120a;
+font-size:13px;
+font-weight:850;
+cursor:pointer;
+transition:.2s ease;
+}
+
+.add-to-cart:hover,.add-to-cart:focus-visible{background:#efd36e;transform:translateY(-1px);outline:none;}
+#menu .card:not(.featured-dish) .add-to-cart{margin-top:14px;}
+
+.cart-fab{
+position:fixed;
+right:22px;
+bottom:82px;
+z-index:110;
+min-height:50px;
+display:flex;
+align-items:center;
+gap:9px;
+padding:10px 16px;
+border:1px solid rgba(239,211,110,.7);
+border-radius:999px;
+background:#d4af37;
+color:#17120a;
+font-size:14px;
+font-weight:900;
+box-shadow:0 16px 38px rgba(0,0,0,.55);
+cursor:pointer;
+}
+
+.cart-count{min-width:24px;height:24px;display:grid;place-items:center;padding:0 6px;border-radius:999px;background:#17120a;color:#efd36e;font-size:12px;}
+.cart-backdrop{position:fixed;inset:0;z-index:190;background:rgba(0,0,0,.68);opacity:0;visibility:hidden;transition:.2s ease;}
+.cart-backdrop.is-open{opacity:1;visibility:visible;}
+.cart-drawer{position:fixed;top:0;right:0;z-index:200;width:min(430px,100%);height:100dvh;display:flex;flex-direction:column;padding:24px;background:#0d0d0d;border-left:1px solid rgba(212,175,55,.28);box-shadow:-24px 0 70px rgba(0,0,0,.55);transform:translateX(105%);transition:.25s ease;}
+.cart-drawer.is-open{transform:translateX(0);}
+.cart-head{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.09);}
+.cart-head h2{color:#efd36e;font-size:26px;}
+.cart-close{width:42px;height:42px;border:1px solid rgba(255,255,255,.12);border-radius:50%;background:#171717;color:#fff;font-size:25px;cursor:pointer;}
+.cart-items{flex:1;overflow:auto;padding:14px 2px;}
+.cart-empty{padding:45px 10px;color:#9d988e;line-height:1.6;text-align:center;}
+.cart-item{display:grid;grid-template-columns:1fr auto;gap:12px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.08);}
+.cart-item-name{color:#f3efe5;font-size:15px;font-weight:750;line-height:1.35;}
+.cart-item-price{margin-top:5px;color:#d4af37;font-size:13px;}
+.cart-item-controls{display:flex;align-items:center;gap:8px;}
+.cart-item-controls button{width:31px;height:31px;border:1px solid rgba(212,175,55,.35);border-radius:50%;background:#171717;color:#efd36e;font-size:18px;cursor:pointer;}
+.cart-item-qty{min-width:22px;color:#fff;font-weight:800;text-align:center;}
+.cart-footer{padding-top:18px;border-top:1px solid rgba(212,175,55,.25);}
+.cart-total{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;color:#f5f1e7;font-size:18px;font-weight:800;}
+.cart-total strong{color:#efd36e;font-size:24px;}
+.cart-note{margin-bottom:14px;color:#918c82;font-size:12px;line-height:1.5;}
+.cart-actions{display:grid;grid-template-columns:1fr 1.5fr;gap:10px;}
+.cart-actions button,.cart-actions a{min-height:48px;display:grid;place-items:center;padding:10px;border-radius:14px;font-size:13px;font-weight:850;text-align:center;text-decoration:none;}
+.cart-clear{border:1px solid rgba(255,255,255,.13);background:#171717;color:#c9c3b8;cursor:pointer;}
+.cart-call{background:#d4af37;color:#17120a;}
+body.cart-open{overflow:hidden;}
+
 @media(max-width:700px){
 
 #menu{
@@ -756,6 +819,9 @@ padding:20px;
 margin-top:8px;
 font-size:14px;
 }
+
+.cart-fab{right:12px;bottom:78px;}
+.cart-drawer{padding:20px 16px;}
 
 }
 
@@ -1364,6 +1430,26 @@ ELVO CAFE • KYIV
 </div>
 </section>
 
+<button class="cart-fab" id="cart-open" type="button" aria-controls="cart-drawer" aria-expanded="false">
+🛒 Кошик <span class="cart-count" id="cart-count">0</span>
+</button>
+<div class="cart-backdrop" id="cart-backdrop"></div>
+<aside class="cart-drawer" id="cart-drawer" aria-hidden="true" aria-label="Кошик замовлення">
+<div class="cart-head">
+<h2>Ваше замовлення</h2>
+<button class="cart-close" id="cart-close" type="button" aria-label="Закрити кошик">×</button>
+</div>
+<div class="cart-items" id="cart-items"></div>
+<div class="cart-footer">
+<div class="cart-total"><span>Разом</span><strong id="cart-total">0 ₴</strong></div>
+<p class="cart-note">Онлайн-оплату підключимо пізніше. Зараз замовлення можна узгодити телефоном.</p>
+<div class="cart-actions">
+<button class="cart-clear" id="cart-clear" type="button">Очистити</button>
+<a class="cart-call" href="tel:+380681284268">Зателефонувати</a>
+</div>
+</div>
+</aside>
+
 <nav class="mobile-actions" aria-label="Швидкі дії">
 <a href="tel:+380681284268">Подзвонити</a>
 <a href="https://www.google.com/maps/search/?api=1&amp;query=%D0%B2%D1%83%D0%BB.%20%D0%A3%D1%80%D0%BB%D1%96%D0%B2%D1%81%D1%8C%D0%BA%D0%B0%2C%2011%2F44%2C%20%D0%9A%D0%B8%D1%97%D0%B2" target="_blank" rel="noopener">Маршрут</a>
@@ -1412,6 +1498,115 @@ const menuSearch = document.querySelector('#menu-search-input');
 const searchStatus = document.querySelector('#search-status');
 const menuCards = [...document.querySelectorAll('#menu .card')];
 const openStatuses = [...document.querySelectorAll('[data-hours]')];
+const cartOpen = document.querySelector('#cart-open');
+const cartClose = document.querySelector('#cart-close');
+const cartDrawer = document.querySelector('#cart-drawer');
+const cartBackdrop = document.querySelector('#cart-backdrop');
+const cartItems = document.querySelector('#cart-items');
+const cartCount = document.querySelector('#cart-count');
+const cartTotal = document.querySelector('#cart-total');
+const cartClear = document.querySelector('#cart-clear');
+const CART_KEY = 'elvo-cafe-cart-v1';
+
+const menuProducts = new Map();
+let cart = {};
+
+try {
+  cart = JSON.parse(localStorage.getItem(CART_KEY)) || {};
+} catch (error) {
+  cart = {};
+}
+
+const formatPrice = value => `${value.toLocaleString('uk-UA')} ₴`;
+
+menuCards.forEach((card, index) => {
+  const nameElement = card.querySelector('.name');
+  const priceElement = card.querySelector('.price');
+  if (!nameElement || !priceElement) return;
+
+  const priceMatch = priceElement.textContent.replace(',', '.').match(/\d+(?:\.\d+)?/);
+  if (!priceMatch) return;
+
+  const id = `dish-${index}`;
+  const product = {
+    id,
+    name: nameElement.textContent.trim(),
+    price: Number(priceMatch[0])
+  };
+  menuProducts.set(id, product);
+
+  const button = document.createElement('button');
+  button.className = 'add-to-cart';
+  button.type = 'button';
+  button.textContent = 'Додати до кошика';
+  button.addEventListener('click', () => {
+    cart[id] = (cart[id] || 0) + 1;
+    saveAndRenderCart();
+    button.textContent = 'Додано ✓';
+    setTimeout(() => { button.textContent = 'Додати до кошика'; }, 900);
+  });
+
+  (card.querySelector('.dish-content') || card).append(button);
+});
+
+const saveAndRenderCart = () => {
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  const entries = Object.entries(cart).filter(([id, quantity]) => menuProducts.has(id) && quantity > 0);
+  const count = entries.reduce((sum, [, quantity]) => sum + quantity, 0);
+  const total = entries.reduce((sum, [id, quantity]) => sum + menuProducts.get(id).price * quantity, 0);
+
+  cartCount.textContent = count;
+  cartTotal.textContent = formatPrice(total);
+
+  if (!entries.length) {
+    cartItems.innerHTML = '<p class="cart-empty">Кошик поки порожній.<br>Додайте улюблені страви з меню.</p>';
+    return;
+  }
+
+  cartItems.innerHTML = entries.map(([id, quantity]) => {
+    const product = menuProducts.get(id);
+    return `<div class="cart-item">
+      <div><div class="cart-item-name">${product.name}</div><div class="cart-item-price">${formatPrice(product.price * quantity)}</div></div>
+      <div class="cart-item-controls">
+        <button type="button" data-cart-action="minus" data-id="${id}" aria-label="Зменшити кількість">−</button>
+        <span class="cart-item-qty">${quantity}</span>
+        <button type="button" data-cart-action="plus" data-id="${id}" aria-label="Збільшити кількість">+</button>
+      </div>
+    </div>`;
+  }).join('');
+};
+
+const setCartOpen = isOpen => {
+  cartDrawer.classList.toggle('is-open', isOpen);
+  cartBackdrop.classList.toggle('is-open', isOpen);
+  document.body.classList.toggle('cart-open', isOpen);
+  cartDrawer.setAttribute('aria-hidden', String(!isOpen));
+  cartOpen.setAttribute('aria-expanded', String(isOpen));
+};
+
+cartOpen.addEventListener('click', () => setCartOpen(true));
+cartClose.addEventListener('click', () => setCartOpen(false));
+cartBackdrop.addEventListener('click', () => setCartOpen(false));
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') setCartOpen(false);
+});
+
+cartItems.addEventListener('click', event => {
+  const button = event.target.closest('[data-cart-action]');
+  if (!button) return;
+  const { id, cartAction } = button.dataset;
+  if (cartAction === 'plus') cart[id] = (cart[id] || 0) + 1;
+  if (cartAction === 'minus') cart[id] = Math.max(0, (cart[id] || 0) - 1);
+  if (!cart[id]) delete cart[id];
+  saveAndRenderCart();
+});
+
+cartClear.addEventListener('click', () => {
+  cart = {};
+  saveAndRenderCart();
+});
+
+saveAndRenderCart();
 
 const updateOpenStatus = () => {
   const parts = new Intl.DateTimeFormat('uk-UA', {
