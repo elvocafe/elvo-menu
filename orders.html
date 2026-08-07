@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#080808">
+  <title>Замовлення ELVO</title>
+  <style>
+    *{box-sizing:border-box}
+    :root{color-scheme:dark;--gold:#d4af37;--gold2:#f0d56e;--ink:#080808;--card:#121212;--muted:#aaa397;--green:#49d17d}
+    body{margin:0;min-height:100vh;background:radial-gradient(circle at 85% 0,#2a210b 0,transparent 28%),var(--ink);color:#f7f3ea;font-family:Inter,Segoe UI,Arial,sans-serif}
+    header{height:82px;display:flex;align-items:center;justify-content:space-between;padding:0 34px;border-bottom:1px solid rgba(212,175,55,.24);background:rgba(8,8,8,.94)}
+    .brand{display:flex;align-items:center;gap:15px}.mark{width:48px;height:48px;display:grid;place-items:center;border:1px solid var(--gold);border-radius:13px;color:var(--gold2);font-weight:900}.brand strong{display:block;color:var(--gold2);font-size:20px;letter-spacing:1.4px}.brand small{color:var(--muted)}
+    .clock{font-size:18px;font-weight:750;color:#ded8cc}
+    main{padding:30px 34px 50px}.top{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:26px}.top h1{margin:0 0 7px;font-size:34px}.top p{margin:0;color:var(--muted)}
+    .status{display:flex;align-items:center;gap:9px;padding:11px 15px;border:1px solid rgba(212,175,55,.28);border-radius:999px;background:#14120d;color:var(--gold2);font-weight:750}.dot{width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 14px var(--gold)}
+    .stats{display:grid;grid-template-columns:repeat(3,minmax(180px,1fr));gap:16px;margin-bottom:22px}.stat{padding:20px;border:1px solid rgba(255,255,255,.08);border-radius:18px;background:var(--card)}.stat span{display:block;color:var(--muted);font-size:13px}.stat strong{display:block;margin-top:8px;font-size:28px}.stat:nth-child(2) strong{color:var(--green)}
+    .panel{min-height:440px;border:1px solid rgba(212,175,55,.2);border-radius:22px;background:linear-gradient(145deg,#131313,#0e0e0e);overflow:hidden}.panel-head{display:flex;align-items:center;justify-content:space-between;padding:19px 22px;border-bottom:1px solid rgba(255,255,255,.07)}.panel-head h2{margin:0;font-size:19px}.panel-head span{color:var(--muted);font-size:13px}
+    .empty{min-height:355px;display:grid;place-items:center;padding:30px;text-align:center}.empty-inner{max-width:560px}.icon{width:78px;height:78px;display:grid;place-items:center;margin:0 auto 20px;border:1px solid rgba(212,175,55,.3);border-radius:50%;background:#17140c;color:var(--gold2);font-size:32px}.empty h3{margin:0 0 10px;font-size:24px}.empty p{margin:0 auto;color:var(--muted);line-height:1.65}.notice{display:inline-block;margin-top:20px;padding:10px 14px;border-radius:10px;background:rgba(212,175,55,.1);color:#dec568;font-size:13px}
+    @media(max-width:760px){header,main{padding-left:18px;padding-right:18px}.clock{display:none}.top{align-items:flex-start;flex-direction:column}.stats{grid-template-columns:1fr}.top h1{font-size:28px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand"><div class="mark">EL</div><div><strong>ELVO CAFE</strong><small>Робоче місце продавця</small></div></div>
+    <div class="clock" id="clock">--:--</div>
+  </header>
+  <main>
+    <div class="top"><div><h1>Замовлення ELVO</h1><p>Нові онлайн-замовлення з сайту</p></div><div class="status"><span class="dot"></span>Підключення готується</div></div>
+    <section class="stats" aria-label="Статистика замовлень">
+      <div class="stat"><span>Нові замовлення</span><strong>0</strong></div>
+      <div class="stat"><span>Оплачено LiqPay</span><strong>0 ₴</strong></div>
+      <div class="stat"><span>Передано на кухню</span><strong>0</strong></div>
+    </section>
+    <section class="panel">
+      <div class="panel-head"><h2>Черга замовлень</h2><span>Оновлення автоматично</span></div>
+      <div class="empty"><div class="empty-inner"><div class="icon">✓</div><h3>Екран продавця готовий</h3><p>У неділю підключимо захищений вхід, приймання замовлень і перевірений статус оплати LiqPay. Після цього нові замовлення з’являтимуться тут автоматично.</p><span class="notice">Зараз реальні замовлення та дані клієнтів не відображаються</span></div></div>
+    </section>
+  </main>
+  <script>
+    const clock=document.getElementById('clock');
+    const tick=()=>clock.textContent=new Intl.DateTimeFormat('uk-UA',{hour:'2-digit',minute:'2-digit',second:'2-digit'}).format(new Date());
+    tick();setInterval(tick,1000);
+  </script>
+</body>
+</html>
