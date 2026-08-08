@@ -29,7 +29,7 @@
     <div class="clock" id="clock">--:--</div>
   </header>
   <main>
-    <div class="top"><div><h1>Замовлення ELVO</h1><p>Нові онлайн-замовлення з сайту</p></div><div class="top-actions"><button class="test-order" id="test-order" type="button">Перевірити звук</button><div class="status"><span class="dot"></span><span id="connection-status">Очікує підключення</span></div></div></div>
+    <div class="top"><div><h1>Замовлення ELVO</h1><p>Нові онлайн-замовлення з сайту</p></div><div class="top-actions"><button class="test-order" id="test-delivery" type="button">Тест доставки</button><button class="test-order" id="test-pickup" type="button">Тест самовивозу</button><div class="status"><span class="dot"></span><span id="connection-status">Очікує підключення</span></div></div></div>
     <section class="stats" aria-label="Статистика замовлень">
       <div class="stat"><span>Нові замовлення</span><strong id="new-count">0</strong></div>
       <div class="stat"><span>Оплачено LiqPay</span><strong id="paid-total">0 ₴</strong></div>
@@ -38,7 +38,7 @@
     <section class="panel">
       <div class="panel-head"><h2>Черга замовлень</h2><span>Тільки підтверджені оплати LiqPay</span></div>
       <div class="order-list" id="order-list" aria-live="polite"></div>
-      <div class="empty" id="empty-state"><div class="empty-inner"><div class="icon">✓</div><h3>Нових замовлень немає</h3><p>Після захищеного підключення нові оплачені замовлення з’являтимуться тут автоматично зі звуковим сигналом.</p><span class="notice">Кнопка «Перевірити звук» створює тільки тестове замовлення</span></div></div>
+      <div class="empty" id="empty-state"><div class="empty-inner"><div class="icon">✓</div><h3>Нових замовлень немає</h3><p>Після захищеного підключення нові оплачені замовлення з’являтимуться тут автоматично зі звуковим сигналом.</p><span class="notice">Кнопки тестування створюють тільки тестові замовлення</span></div></div>
     </section>
   </main>
   <script>
@@ -48,7 +48,8 @@
     const newCount=document.getElementById('new-count');
     const paidTotal=document.getElementById('paid-total');
     const kitchenCount=document.getElementById('kitchen-count');
-    const testOrderButton=document.getElementById('test-order');
+    const testDeliveryButton=document.getElementById('test-delivery');
+    const testPickupButton=document.getElementById('test-pickup');
     const ORDERS_KEY='elvo-orders-screen-test-v1';
     let orders=[];
 
@@ -95,15 +96,16 @@
       </article>`).join('');
     };
 
-    const addTestOrder=()=>{
+    const addTestOrder=fulfillment=>{
       const now=new Date();
       const items=[{name:'Філадельфія з лососем',qty:1,price:349},{name:'Картопля фрі',qty:2,price:159}];
       const total=items.reduce((sum,item)=>sum+item.price*item.qty,0);
-      orders.unshift({id:`test-${Date.now()}`,number:`Тестове замовлення №${String(Date.now()).slice(-4)}`,time:new Intl.DateTimeFormat('uk-UA',{hour:'2-digit',minute:'2-digit'}).format(now),items,total,paid:true,fulfillment:'delivery',status:'new'});
+      orders.unshift({id:`test-${Date.now()}`,number:`Тестове замовлення №${String(Date.now()).slice(-4)}`,time:new Intl.DateTimeFormat('uk-UA',{hour:'2-digit',minute:'2-digit'}).format(now),items,total,paid:true,fulfillment,status:'new'});
       save();render();playOrderSound();
     };
 
-    testOrderButton.addEventListener('click',addTestOrder);
+    testDeliveryButton.addEventListener('click',()=>addTestOrder('delivery'));
+    testPickupButton.addEventListener('click',()=>addTestOrder('pickup'));
     orderList.addEventListener('click',event=>{
       const button=event.target.closest('[data-action]');if(!button)return;
       const card=button.closest('[data-order-id]');const order=orders.find(item=>item.id===card.dataset.orderId);if(!order)return;
