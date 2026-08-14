@@ -81,6 +81,9 @@
       if (!payment.checkoutUrl || !payment.data || !payment.signature) {
         throw new Error('Invalid payment response: missing required fields');
       }
+      try {
+        localStorage.setItem('elvo_payment_order_id', String(payment.orderId || ''));
+      } catch (_) {}
       const form = document.createElement('form');
       form.method = 'POST';
       form.action = payment.checkoutUrl;
@@ -101,11 +104,41 @@
     }
   }
 
+  function ensurePaymentStatusNode() {
+    let statusNode = document.querySelector('#payment-status');
+    if (statusNode) return statusNode;
+    statusNode = document.createElement('div');
+    statusNode.id = 'payment-status';
+    statusNode.setAttribute('role', 'status');
+    statusNode.style.cssText = 'position:fixed;top:86px;left:50%;transform:translateX(-50%);z-index:9999;max-width:calc(100% - 32px);padding:14px 18px;border:1px solid rgba(212,175,55,.7);border-radius:14px;background:#111;color:#f4df8a;font-weight:800;text-align:center;box-shadow:0 12px 34px rgba(0,0,0,.45)';
+    document.body.appendChild(statusNode);
+    return statusNode;
+  }
+
   function showPaymentStatus(statusText, isError = false) {
-    const statusNode = document.querySelector('#payment-status');
-    if (!statusNode) return;
+    const statusNode = ensurePaymentStatusNode();
     statusNode.textContent = statusText;
-    statusNode.classList.toggle('error', isError);
+    statusNode.style.borderColor = isError ? '#d9534f' : 'rgba(212,175,55,.7)';
+    statusNode.style.color = isError ? '#ffb3af' : '#f4df8a';
+  }
+
+  function clearPaidCart() {
+    try {
+      localStorage.removeItem('elvo-cart');
+      localStorage.removeItem('elvo_checkout');
+      localStorage.removeItem('elvo_payment_order_id');
+    } catch (_) {}
+
+    if (typeof window.renderCart === 'function') {
+      window.renderCart();
+    } else {
+      const count = document.querySelector('#cart-count');
+      const items = document.querySelector('#cart-items');
+      const total = document.querySelector('#cart-total');
+      if (count) count.textContent = '0';
+      if (items) items.innerHTML = '<div class="empty-cart">Кошик порожній. Додайте страву з меню.</div>';
+      if (total) total.textContent = '0 ₴';
+    }
   }
 
   function initPaymentReturnStatus() {
@@ -119,7 +152,9 @@
         const data = await response.json();
         if (!response.ok) throw new Error(data?.error || 'Order status failed');
         if (data.status === 'paid' || data.payment_status === 'paid') {
+          clearPaidCart();
           showPaymentStatus('Оплата підтверджена. Замовлення успішно оформлено.', false);
+          window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
         } else if (data.status === 'payment_failed' || data.payment_status === 'failed') {
           showPaymentStatus('Оплата не пройшла. Будь ласка, повторіть спробу.', true);
         } else {
