@@ -1877,6 +1877,9 @@ const cartItems = document.querySelector('#cart-items');
 const cartCount = document.querySelector('#cart-count');
 const cartTotal = document.querySelector('#cart-total');
 const cartClear = document.querySelector('#cart-clear');
+const checkoutButton = document.querySelector('#checkout-button');
+const cartItemsRoot = cartItems;
+const clearCartButton = cartClear;
 const CART_KEY = 'elvo-cafe-cart-v1';
 
 const menuProducts = new Map();
@@ -1887,38 +1890,6 @@ try {
 } catch (error) {
   cart = {};
 }
-
-const formatPrice = value => `${value.toLocaleString('uk-UA')} ₴`;
-
-menuCards.forEach((card, index) => {
-  const nameElement = card.querySelector('.name');
-  const priceElement = card.querySelector('.price');
-  if (!nameElement || !priceElement) return;
-
-  const priceMatch = priceElement.textContent.replace(',', '.').match(/\d+(?:\.\d+)?/);
-  if (!priceMatch) return;
-
-  const id = `dish-${index}`;
-  const product = {
-    id,
-    name: nameElement.textContent.trim(),
-    price: Number(priceMatch[0])
-  };
-  menuProducts.set(id, product);
-
-  const button = document.createElement('button');
-  button.className = 'add-to-cart';
-  button.type = 'button';
-  button.textContent = 'Додати до кошика';
-  button.addEventListener('click', () => {
-    cart[id] = (cart[id] || 0) + 1;
-    saveAndRenderCart();
-    button.textContent = 'Додано ✓';
-    setTimeout(() => { button.textContent = 'Додати до кошика'; }, 900);
-  });
-
-  (card.querySelector('.dish-content') || card).append(button);
-});
 
 const saveAndRenderCart = () => {
   localStorage.setItem(CART_KEY, JSON.stringify(cart));
