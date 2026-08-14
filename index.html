@@ -1801,10 +1801,9 @@ ELVO CAFE • KYIV
 <div class="cart-items" id="cart-items"></div>
 <div class="cart-footer">
 <div class="cart-total"><span>Разом</span><strong id="cart-total">0 ₴</strong></div>
-<p class="cart-note">Онлайн-оплату підключимо пізніше. Зараз замовлення можна узгодити телефоном.</p>
 <div class="cart-actions">
 <button class="cart-clear" id="cart-clear" type="button">Очистити</button>
-<a class="cart-call" href="tel:+380681284268">Зателефонувати</a>
+<button class="cart-call" id="checkout-button" type="button">Оплатити онлайн</button>
 </div>
 </div>
 </aside>
@@ -1960,7 +1959,7 @@ function renderCart() {
 
   if (checkoutButton) {
     checkoutButton.disabled = false;
-    checkoutButton.textContent = 'Оплатити LiqPay';
+    checkoutButton.textContent = 'Оплатити онлайн';
   }
 }
 

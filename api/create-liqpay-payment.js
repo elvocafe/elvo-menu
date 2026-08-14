@@ -14,6 +14,7 @@ module.exports = async function handler(req, res) {
 
   const orderId = `ELVO-${Date.now()}-${Math.random().toString(36).slice(2, 7).toUpperCase()}`;
   const siteUrl = (process.env.SITE_URL || 'https://elvo-menu.vercel.app').replace(/\/$/, '');
+  const publicSiteUrl = 'https://elvocafe.github.io/elvo-menu';
   const items = Array.isArray(body.items) ? body.items.slice(0, 100).map(item => ({
     name: String(item.name || '').trim().slice(0, 150),
     price: Number(item.price) || 0,
@@ -34,7 +35,7 @@ module.exports = async function handler(req, res) {
     currency: 'UAH',
     description: `Замовлення ELVO CAFE ${orderId}`,
     order_id: orderId,
-    result_url: `${siteUrl}/?payment=return&order_id=${encodeURIComponent(orderId)}`,
+    result_url: `${publicSiteUrl}/?payment=return&order_id=${encodeURIComponent(orderId)}`,
     server_url: `${siteUrl}/api/liqpay-callback`,
     language: 'uk',
     sandbox: 1

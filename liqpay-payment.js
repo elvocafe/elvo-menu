@@ -1,4 +1,6 @@
 (function () {
+  const API_BASE = (window.ELVO_API_BASE || 'https://elvo-menu.vercel.app').replace(/\/$/, '');
+
   const money = (text) => {
     const values = String(text || '').match(/\d[\d\s]*(?:[.,]\d{1,2})?\s*₴/g) || [];
     const last = values.at(-1);
@@ -69,7 +71,7 @@
 
     try {
       persistOrder(order);
-      const response = await fetch('/api/create-liqpay-payment', {
+      const response = await fetch(`${API_BASE}/api/create-liqpay-payment`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(order)
@@ -108,7 +110,7 @@
     if (params.get('payment') !== 'return' || !orderId) return;
 
     showPaymentStatus('Перевіряємо статус замовлення…');
-    fetch(`/api/order-status?order_id=${encodeURIComponent(orderId)}`)
+    fetch(`${API_BASE}/api/order-status?order_id=${encodeURIComponent(orderId)}`)
       .then(async (response) => {
         const data = await response.json();
         if (!response.ok) throw new Error(data?.error || 'Order status failed');

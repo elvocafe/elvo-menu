@@ -7,12 +7,22 @@ function json(res, status, body) {
 }
 
 function allowRequest(req, res) {
-  const allowed = process.env.ALLOWED_ORIGIN || process.env.SITE_URL || '*';
-  const origin = req.headers.origin;
-  if (allowed === '*' || !origin || origin === allowed) {
-    res.setHeader('Access-Control-Allow-Origin', origin || allowed);
+  const origin = req.headers.origin || '';
+  const allowedOrigins = new Set([
+    'https://elvocafe.github.io',
+    'https://www.elvocafe.github.io',
+    'https://elvo-menu.vercel.app',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    process.env.SITE_URL,
+    process.env.ALLOWED_ORIGIN,
+    '*'
+  ].filter(Boolean));
+
+  if (!origin || allowedOrigins.has(origin) || allowedOrigins.has('*')) {
+    res.setHeader('Access-Control-Allow-Origin', origin || '*');
   }
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Admin-Pin');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Admin-Pin, Authorization');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, OPTIONS');
   if (req.method === 'OPTIONS') {
     res.statusCode = 204;
