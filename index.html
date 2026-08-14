@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
+<link rel="manifest" href="elvo-cafe.webmanifest">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#070707">
@@ -822,6 +824,116 @@ padding:14px 28px;
 font-size:16px;
 }
 
+#menu .featured-dish{
+grid-column:1 / -1;
+min-height:0;
+display:grid;
+grid-template-columns:minmax(230px,.9fr) minmax(0,1.1fr);
+align-items:stretch;
+padding:0;
+}
+
+.dish-photo{
+width:100%;
+height:100%;
+min-height:300px;
+display:block;
+object-fit:cover;
+}
+
+.dish-content{
+position:relative;
+display:flex;
+flex-direction:column;
+justify-content:center;
+padding:34px 30px;
+}
+
+.dish-description{
+margin:12px 0 0;
+color:#aaa49a;
+font-size:15px;
+line-height:1.6;
+}
+
+.dish-meta{
+margin-top:8px;
+color:#e0bd4c;
+font-size:13px;
+font-weight:800;
+letter-spacing:.3px;
+}
+
+#menu .featured-dish .price{
+position:static;
+transform:none;
+align-self:flex-start;
+margin-top:14px;
+}
+
+.add-to-cart{
+align-self:flex-start;
+margin-top:18px;
+padding:11px 18px;
+border:1px solid #d4af37;
+border-radius:999px;
+background:#d4af37;
+color:#17120a;
+font-size:13px;
+font-weight:850;
+cursor:pointer;
+transition:.2s ease;
+}
+
+.add-to-cart:hover,.add-to-cart:focus-visible{background:#efd36e;transform:translateY(-1px);outline:none;}
+#menu .card:not(.featured-dish) .add-to-cart{margin-top:14px;}
+
+.cart-fab{
+position:fixed;
+right:22px;
+bottom:82px;
+z-index:110;
+min-height:50px;
+display:flex;
+align-items:center;
+gap:9px;
+padding:10px 16px;
+border:1px solid rgba(239,211,110,.7);
+border-radius:999px;
+background:#d4af37;
+color:#17120a;
+font-size:14px;
+font-weight:900;
+box-shadow:0 16px 38px rgba(0,0,0,.55);
+cursor:pointer;
+}
+
+.cart-count{min-width:24px;height:24px;display:grid;place-items:center;padding:0 6px;border-radius:999px;background:#17120a;color:#efd36e;font-size:12px;}
+.cart-backdrop{position:fixed;inset:0;z-index:190;background:rgba(0,0,0,.68);opacity:0;visibility:hidden;transition:.2s ease;}
+.cart-backdrop.is-open{opacity:1;visibility:visible;}
+.cart-drawer{position:fixed;top:0;right:0;z-index:200;width:min(430px,100%);height:100dvh;display:flex;flex-direction:column;padding:24px;background:#0d0d0d;border-left:1px solid rgba(212,175,55,.28);box-shadow:-24px 0 70px rgba(0,0,0,.55);transform:translateX(105%);transition:.25s ease;}
+.cart-drawer.is-open{transform:translateX(0);}
+.cart-head{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.09);}
+.cart-head h2{color:#efd36e;font-size:26px;}
+.cart-close{width:42px;height:42px;border:1px solid rgba(255,255,255,.12);border-radius:50%;background:#171717;color:#fff;font-size:25px;cursor:pointer;}
+.cart-items{flex:1;overflow:auto;padding:14px 2px;}
+.cart-empty{padding:45px 10px;color:#9d988e;line-height:1.6;text-align:center;}
+.cart-item{display:grid;grid-template-columns:1fr auto;gap:12px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.08);}
+.cart-item-name{color:#f3efe5;font-size:15px;font-weight:750;line-height:1.35;}
+.cart-item-price{margin-top:5px;color:#d4af37;font-size:13px;}
+.cart-item-controls{display:flex;align-items:center;gap:8px;}
+.cart-item-controls button{width:31px;height:31px;border:1px solid rgba(212,175,55,.35);border-radius:50%;background:#171717;color:#efd36e;font-size:18px;cursor:pointer;}
+.cart-item-qty{min-width:22px;color:#fff;font-weight:800;text-align:center;}
+.cart-footer{padding-top:18px;border-top:1px solid rgba(212,175,55,.25);}
+.cart-total{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;color:#f5f1e7;font-size:18px;font-weight:800;}
+.cart-total strong{color:#efd36e;font-size:24px;}
+.cart-note{margin-bottom:14px;color:#918c82;font-size:12px;line-height:1.5;}
+.cart-actions{display:grid;grid-template-columns:1fr 1.5fr;gap:10px;}
+.cart-actions button,.cart-actions a{min-height:48px;display:grid;place-items:center;padding:10px;border-radius:14px;font-size:13px;font-weight:850;text-align:center;text-decoration:none;}
+.cart-clear{border:1px solid rgba(255,255,255,.13);background:#171717;color:#c9c3b8;cursor:pointer;}
+.cart-call{background:#d4af37;color:#17120a;}
+body.cart-open{overflow:hidden;}
+
 @media(max-width:700px){
 
 #menu{
@@ -892,7 +1004,49 @@ font-size:16px;
 .cart-action-row{justify-content:stretch;}
 .cart-checkout{width:100%;}
 
+#menu .featured-dish{
+grid-column:auto;
+display:flex;
+padding:0;
+gap:0;
 }
+
+.dish-photo{
+height:230px;
+min-height:0;
+}
+
+.dish-content{
+width:100%;
+padding:20px;
+}
+
+.dish-description{
+margin-top:8px;
+font-size:14px;
+}
+
+.cart-fab{right:12px;bottom:78px;}
+.cart-drawer{padding:20px 16px;}
+
+}
+
+/* DELIVERY ZONES */
+.delivery-zones{max-width:1100px;margin:0 auto 80px;padding:0 28px;}
+.delivery-zones-panel{padding:38px;border:1px solid rgba(212,175,55,.3);border-radius:28px;background:linear-gradient(145deg,#191712,#0c0c0c 68%);}
+.delivery-zones h2{margin:8px 0 10px;color:#f5f1e7;font-size:clamp(30px,5vw,46px);}
+.delivery-zones-intro{max-width:760px;margin:0 0 24px;color:#aaa397;line-height:1.65;}
+.delivery-map-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(260px,.75fr);gap:20px;}
+#delivery-map{height:480px;overflow:hidden;border:1px solid rgba(212,175,55,.28);border-radius:20px;background:#111;}
+.delivery-legend{display:grid;align-content:start;gap:12px;}
+.zone-row{display:grid;grid-template-columns:14px 1fr;gap:12px;padding:17px;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:rgba(255,255,255,.025);}
+.zone-color{width:12px;height:12px;margin-top:4px;border-radius:50%;}
+.zone-row strong{display:block;margin-bottom:4px;color:#f4eedf;}.zone-row span{color:#aaa397;font-size:13px;line-height:1.45;}
+.zone-green{background:#43c66d}.zone-yellow{background:#e3bf3f}.zone-orange{background:#e78532}.zone-dark{background:#777}
+.delivery-note{margin-top:15px;color:#8f8a80;font-size:12px;line-height:1.55;}
+.delivery-change{margin:0 0 20px;padding:16px 18px;border:1px solid rgba(212,175,55,.3);border-radius:15px;background:rgba(212,175,55,.09);color:#efe5c2;line-height:1.55;}
+.delivery-change strong{color:#efd36e;}
+@media(max-width:800px){.delivery-map-grid{grid-template-columns:1fr}#delivery-map{height:390px}.delivery-zones{padding:0 16px}.delivery-zones-panel{padding:26px 18px}}
 
 /* CONTACTS */
 .contacts{max-width:1100px;margin:0 auto 90px;padding:0 28px;}
@@ -944,6 +1098,7 @@ html{scroll-behavior:auto;}
 <li><a href="#top">Головна</a></li>
 <li><a href="#menu">Меню</a></li>
 <li><a href="#contacts">Контакти</a></li>
+<li><a href="oferta.html">Публічна оферта</a></li>
 </ul>
 </div>
 </nav>
@@ -1021,284 +1176,573 @@ ELVO CAFE • KYIV
 <div class="title" id="sushi">
 🍣 Суші
 </div>
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="hunkan-maki.jpg" alt="Гункан макі" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Гункан макі</div>
+<p class="dish-description">Рис, лосось, норі, соус спайсі.</p>
+<p class="dish-meta">66 г · 1 шт.</p>
 <div class="price">99 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="chervonyi-drakon.jpg?v=2" alt="Червоний дракон" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Червоний дракон</div>
+<p class="dish-description">Рис «Японіка», норі, вугор, авокадо, ікра, лосось.</p>
+<p class="dish-meta">380 г · 8 шт.</p>
 <div class="price">409 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="sushi-set-yaponika.jpg?v=2" alt="Суші-сет Японіка" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Суші-сет Японіка</div>
+<p class="dish-description">Філадельфія з лососем, Каліфорнія з вугрем в кунжуті, Футомакі з креветкою, Каліфорнія «Сніжний краб» в ікрі.</p>
+<p class="dish-meta">1430 г · 32 шт.</p>
 <div class="price">1039 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="sushi-set-tokio.jpg?v=2" alt="Суші-сет Токіо" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Суші-сет Токіо</div>
+<p class="dish-description">Каліфорнія з креветкою в ікрі, Філадельфія з лососем, Філадельфія з вугрем, Каліфорнія з вугрем в кунжуті, Каліфорнія з лососем в кунжуті, Каліфорнія «Сніжний краб» в ікрі, Футомакі з лососем.</p>
+<p class="dish-meta">2475 г · 56 шт.</p>
 <div class="price">1670 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="rol-z-khiiashi-ta-avokado.jpg" alt="Рол з хіяші та авокадо" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Рол з хіяші та авокадо</div>
+<p class="dish-description">Рис «Японіка», норі, сир «Філадельфія», хіяші-салат, авокадо.</p>
+<p class="dish-meta">335 г · 8 шт.</p>
 <div class="price">210 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="futomaki-zi-snizhnym-krabom.jpg" alt="Футомакі зі сніжним крабом" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Футомакі зі сніжним крабом</div>
+<p class="dish-description">Рис «Японіка», норі, сир «Філадельфія», сніжний краб, огірок.</p>
+<p class="dish-meta">335 г · 8 шт.</p>
 <div class="price">245 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="futomaki-z-krevetkoiu.jpg" alt="Футомакі з креветкою" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Футомакі з креветкою</div>
+<p class="dish-description">Рис «Японіка», норі, сир «Філадельфія», креветка 26/30, ікра, огірок.</p>
+<p class="dish-meta">335 г · 8 шт.</p>
 <div class="price">260 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="futomaki-z-lososem.jpg" alt="Футомакі з лососем" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Футомакі з лососем</div>
+<p class="dish-description">Рис «Японіка», норі, лосось, огірок.</p>
+<p class="dish-meta">335 г · 8 шт.</p>
 <div class="price">250 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="kaliforniia-z-krevetkoiu-v-ikri.jpg?v=2" alt="Каліфорнія з креветкою в ікрі" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Каліфорнія з креветкою в ікрі</div>
+<p class="dish-description">Рис «Японіка», норі, сир «Філадельфія», креветка, огірок, авокадо, ікра.</p>
+<p class="dish-meta">345 г · 8 шт.</p>
 <div class="price">290 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="filadelfiia-z-lososem.jpg" alt="Філадельфія з лососем" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Філадельфія з лососем</div>
+<p class="dish-description">Рис «Японіка», норі, сир «Філадельфія», огірок, авокадо, лосось.</p>
+<p class="dish-meta">360 г · 8 шт.</p>
 <div class="price">349 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="filadelfiia-z-vuhrem.jpg?v=2" alt="Філадельфія з вугрем" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Філадельфія з вугрем</div>
+<p class="dish-description">Рис «Японіка», норі, сир «Філадельфія», огірок, авокадо, вугор.</p>
+<p class="dish-meta">360 г · 8 шт.</p>
 <div class="price">369 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="kaliforniia-z-lososem-v-kunzhuti.jpg" alt="Каліфорнія з лососем в кунжуті" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Каліфорнія з лососем в кунжуті</div>
+<p class="dish-description">Рис «Японіка», норі, лосось, сир «Філадельфія», огірок, авокадо, кунжут.</p>
+<p class="dish-meta">345 г · 8 шт.</p>
 <div class="price">295 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="kaliforniia-z-vuhrem-v-kunzhuti.jpg?v=2" alt="Каліфорнія з вугрем в кунжуті" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Каліфорнія з вугрем в кунжуті</div>
+<p class="dish-description">Рис «Японіка», норі, сир «Філадельфія», огірок, авокадо, вугор, кунжут.</p>
+<p class="dish-meta">345 г · 8 шт.</p>
 <div class="price">290 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="kaliforniia-snizhnyi-krab.jpg?v=3" alt="Каліфорнія Сніжний краб в ікрі" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Каліфорнія Сніжний краб в ікрі</div>
+<p class="dish-description">Рис «Японіка», норі, сир «Філадельфія», краб, хіяші-салат, ікра.</p>
+<p class="dish-meta">345 г · 8 шт.</p>
 <div class="price">285 ₴</div>
 </div>
-<div class="card">
-  <div class="name">Суші бургер</div>
-  <div class="price">319 ₴</div>
+</article>
+<article class="card featured-dish">
+<img class="dish-photo" src="sushi-burher.jpg" alt="Суші бургер" loading="lazy" width="800" height="800">
+<div class="dish-content">
+<div class="name">Суші бургер</div>
+<p class="dish-description">Норі, рис, сир «Філадельфія», масаго, авокадо, лосось, соус унагі, панірування.</p>
+<p class="dish-meta">420 г</p>
+<div class="price">319 ₴</div>
 </div>
+</article>
 
-<div class="card">
-  <div class="name">Суширіто</div>
-  <div class="price">319 ₴</div>
+<article class="card featured-dish">
+<img class="dish-photo" src="sushirito.jpg" alt="Суширіто" loading="lazy" width="800" height="800">
+<div class="dish-content">
+<div class="name">Суширіто</div>
+<p class="dish-description">Норі, рис, сир «Філадельфія», лосось, панірування, салат айсберг, соус шрірача.</p>
+<p class="dish-meta">445 г</p>
+<div class="price">319 ₴</div>
 </div>
+</article>
 
-<div class="card">
-  <div class="name">Боул з лососем</div>
-  <div class="price">339 ₴</div>
+<article class="card featured-dish">
+<img class="dish-photo" src="boul-z-lososem.jpg" alt="Боул з лососем" loading="lazy" width="800" height="800">
+<div class="dish-content">
+<div class="name">Боул з лососем</div>
+<p class="dish-description">Рис, сир «Філадельфія», авокадо, лосось, помідор, соус унагі, кунжут.</p>
+<p class="dish-meta">395 г</p>
+<div class="price">339 ₴</div>
 </div>
+</article>
 <div class="title" id="friture">
 🍟 Фритюр
 </div>
 
-<div class="card">
-  <div class="name">Курячі нагетси</div>
-  <div class="price">159 ₴</div>
-</div>
+<article class="card featured-dish">
+  <img class="dish-photo" src="kuriachi-nahetsy.jpg" alt="Курячі нагетси" loading="lazy" width="800" height="800">
+  <div class="dish-content">
+    <div class="name">Курячі нагетси</div>
+    <p class="dish-description">Курячі нагетси у хрусткому паніруванні.</p>
+    <p class="dish-meta">145 г · 5 шт.</p>
+    <div class="price">159 ₴</div>
+  </div>
+</article>
 
-<div class="card">
-  <div class="name">Картопля фрі</div>
-  <div class="price">109 ₴</div>
-</div>
+<article class="card featured-dish">
+  <img class="dish-photo" src="kartoplia-fri.jpg" alt="Картопля фрі" loading="lazy" width="800" height="800">
+  <div class="dish-content">
+    <div class="name">Картопля фрі</div>
+    <p class="dish-description">Картопля, обсмажена у фритюрі.</p>
+    <p class="dish-meta">150 г до приготування · вихід 100–120 г</p>
+    <div class="price">109 ₴</div>
+  </div>
+</article>
 
-<div class="card">
-  <div class="name">Цибулеві кільця</div>
-  <div class="price">129 ₴</div>
-</div>
+<article class="card featured-dish">
+  <img class="dish-photo" src="tsybulevi-kiltsia.jpg" alt="Цибулеві кільця" loading="lazy" width="800" height="800">
+  <div class="dish-content">
+    <div class="name">Цибулеві кільця</div>
+    <p class="dish-description">Цибулеві кільця у хрусткому паніруванні.</p>
+    <p class="dish-meta">150 г · 10 шт.</p>
+    <div class="price">129 ₴</div>
+  </div>
+</article>
 
-<div class="card">
-  <div class="name">Сирні палички</div>
-  <div class="price">249 ₴</div>
-</div>
+<article class="card featured-dish">
+  <img class="dish-photo" src="syrni-palychky.jpg" alt="Сирні палички" loading="lazy" width="800" height="800">
+  <div class="dish-content">
+    <div class="name">Сирні палички</div>
+    <p class="dish-description">Сирні палички у хрусткому паніруванні.</p>
+    <p class="dish-meta">170 г · 5 шт.</p>
+    <div class="price">249 ₴</div>
+  </div>
+</article>
 
-<div class="card">
-  <div class="name">Рибні палички</div>
-  <div class="price">289 ₴</div>
-</div>
+<article class="card featured-dish">
+  <img class="dish-photo" src="rybni-palychky.jpg" alt="Рибні палички" loading="lazy" width="800" height="800">
+  <div class="dish-content">
+    <div class="name">Рибні палички</div>
+    <p class="dish-description">Рибні палички у хрусткому паніруванні.</p>
+    <p class="dish-meta">230 г · 2 шт.</p>
+    <div class="price">289 ₴</div>
+  </div>
+</article>
 
-<div class="card">
-  <div class="name">Креветка GO</div>
-  <div class="price">299 ₴</div>
-</div>
+<article class="card featured-dish">
+  <img class="dish-photo" src="krevetka-go.jpg" alt="Креветка GO" loading="lazy" width="800" height="800">
+  <div class="dish-content">
+    <div class="name">Креветка GO</div>
+    <p class="dish-description">Креветки у хрусткому паніруванні.</p>
+    <p class="dish-meta">120 г · 5 шт.</p>
+    <div class="price">299 ₴</div>
+  </div>
+</article>
 
-<div class="card">
-  <div class="name">Чебурек</div>
-  <div class="price">159 ₴</div>
-</div>
+<article class="card featured-dish">
+  <img class="dish-photo" src="cheburek.jpg" alt="Чебурек" loading="lazy" width="800" height="800">
+  <div class="dish-content">
+    <div class="name">Чебурек</div>
+    <p class="dish-description">Три види на вибір: з телятиною, з куркою або з телятиною та томатом.</p>
+    <p class="dish-meta">220 г</p>
+    <div class="price">159 ₴</div>
+  </div>
+</article>
 
-<div class="card">
-  <div class="name">ELVO Menu</div>
-  <div class="price">290 ₴</div>
-</div>
+<article class="card featured-dish">
+  <img class="dish-photo" src="elvo-menu-combo.jpg" alt="ELVO Menu" loading="lazy" width="800" height="800">
+  <div class="dish-content">
+    <div class="name">ELVO Menu</div>
+    <p class="dish-description">Картопля фрі, курячі нагетси, Coca-Cola 0,5 л.</p>
+    <p class="dish-meta">765 г · напій 0,5 л</p>
+    <div class="price">290 ₴</div>
+  </div>
+</article>
 <div class="title" id="snacks">
 🥙 Закуски
 </div>
 
-<div class="card">
-  <div class="name">Бургер</div>
-  <div class="price">205 / 219 ₴</div>
-</div>
+<article class="card featured-dish">
+  <img class="dish-photo" src="burger.jpg" alt="Бургер" loading="lazy" width="800" height="800">
+  <div class="dish-content">
+    <div class="name">Бургер</div>
+    <p class="dish-description">Булочка, котлета на вибір — яловича або куряча, соус, салат айсберг, сир чеддер, томат, маринований огірок, кетчуп, цибуля Марс.</p>
+    <p class="dish-meta">300 г</p>
+    <div class="price">205 / 219 ₴</div>
+  </div>
+</article>
 
-<div class="card">
-  <div class="name">Піта</div>
-  <div class="price">179 ₴</div>
-</div>
+<article class="card featured-dish">
+  <img class="dish-photo" src="pita.jpg" alt="Піта" loading="lazy" width="800" height="800">
+  <div class="dish-content">
+    <div class="name">Піта</div>
+    <p class="dish-description">Курка, салат айсберг, фірмовий соус, томат.</p>
+    <p class="dish-meta">300 г</p>
+    <div class="price">179 ₴</div>
+  </div>
+</article>
 
-<div class="card">
-  <div class="name">Цезар з креветкою</div>
-  <div class="price">299 ₴</div>
-</div>
+<article class="card featured-dish">
+  <img class="dish-photo" src="tsezar-z-krevetkoiu.jpg" alt="Цезар з креветкою" loading="lazy" width="800" height="800">
+  <div class="dish-content">
+    <div class="name">Цезар з креветкою</div>
+    <p class="dish-description">Салат айсберг, томат, перепелині яйця, креветка, соус «Цезар», пармезан.</p>
+    <p class="dish-meta">300 г</p>
+    <div class="price">299 ₴</div>
+  </div>
+</article>
 <div class="title" id="bar">
 🍺 Бар
 </div>
 
-<div class="card">
-  <div class="name">Баварське Lager</div>
-  <div class="price">102,99 ₴ / 1 кг</div>
-</div>
+<article class="card featured-dish">
+  <img class="dish-photo" src="pyvo.jpg" alt="Баварське Lager" loading="lazy" width="900" height="900">
+  <div class="dish-content">
+    <div class="name">Баварське Lager</div>
+    <p class="dish-description">Світле пиво лагер із чистим солодовим смаком та м’якою хмелевою гірчинкою.</p>
+    <p class="dish-meta">1 кг</p>
+    <div class="price">102,99 ₴ / 1 кг</div>
+  </div>
+</article>
 
-<div class="card">
-  <div class="name">Gold Пшеничне</div>
-  <div class="price">107,99 ₴ / 1 кг</div>
-</div>
+<article class="card featured-dish">
+  <img class="dish-photo" src="pyvo.jpg" alt="Gold Пшеничне" loading="lazy" width="900" height="900">
+  <div class="dish-content">
+    <div class="name">Gold Пшеничне</div>
+    <p class="dish-description">Світле пшеничне пиво з м’яким смаком і легкою хлібною ноткою.</p>
+    <p class="dish-meta">1 кг</p>
+    <div class="price">107,99 ₴ / 1 кг</div>
+  </div>
+</article>
 
-<div class="card">
-  <div class="name">Altmuller Blanche</div>
-  <div class="price">104,99 ₴ / 1 кг</div>
-</div>
+<article class="card featured-dish">
+  <img class="dish-photo" src="pyvo.jpg" alt="Altmuller Blanche" loading="lazy" width="900" height="900">
+  <div class="dish-content">
+    <div class="name">Altmuller Blanche</div>
+    <p class="dish-description">Нефільтроване пшеничне пиво у стилі blanche з освіжаючим м’яким смаком.</p>
+    <p class="dish-meta">1 кг</p>
+    <div class="price">104,99 ₴ / 1 кг</div>
+  </div>
+</article>
 
-<div class="card">
-  <div class="name">Квас</div>
-  <div class="price">54,99 ₴ / 1 кг</div>
-</div>
+<article class="card featured-dish">
+  <img class="dish-photo" src="kvas.jpg" alt="Квас" loading="lazy" width="900" height="900">
+  <div class="dish-content">
+    <div class="name">Квас</div>
+    <p class="dish-description">Натуральний безалкогольний хлібний квас із насиченим освіжаючим смаком.</p>
+    <p class="dish-meta">1 кг</p>
+    <div class="price">54,99 ₴ / 1 кг</div>
+  </div>
+</article>
 
-<div class="card">
-  <div class="name">Лимонад</div>
-  <div class="price">49,99 ₴ / 1 кг</div>
-</div>
+<article class="card featured-dish">
+  <img class="dish-photo" src="lymonad.jpg" alt="Лимонад" loading="lazy" width="900" height="900">
+  <div class="dish-content">
+    <div class="name">Лимонад</div>
+    <p class="dish-description">Безалкогольний лимонад із натуральним соком лайма, льодом і цитрусовою свіжістю.</p>
+    <p class="dish-meta">1 кг</p>
+    <div class="price">49,99 ₴ / 1 кг</div>
+  </div>
+</article>
 
-<div class="card">
-  <div class="name">Джин-тонік</div>
-  <div class="price">105,99 ₴ / 1 кг</div>
-</div>
+<article class="card featured-dish">
+  <img class="dish-photo" src="dzhyn-tonik.jpg" alt="Джин-тонік" loading="lazy" width="900" height="900">
+  <div class="dish-content">
+    <div class="name">Джин-тонік</div>
+    <p class="dish-description">Класичний коктейль: джин, тонік, лайм, лід і гілочка розмарину.</p>
+    <p class="dish-meta">1 кг</p>
+    <div class="price">105,99 ₴ / 1 кг</div>
+  </div>
+</article>
 
-<div class="card">
-  <div class="name">Prosecco Frizzante Extra Dry (Італія)</div>
-  <div class="price">49,99 ₴ / 100 г</div>
-</div>
+<article class="card featured-dish">
+  <img class="dish-photo" src="prosecco.jpg" alt="Prosecco Frizzante Extra Dry, Італія" loading="lazy" width="900" height="900">
+  <div class="dish-content">
+    <div class="name">Prosecco Frizzante Extra Dry (Італія)</div>
+    <p class="dish-description">Італійське біле ігристе вино Extra Dry з легким фруктовим смаком.</p>
+    <p class="dish-meta">1 кг</p>
+    <div class="price">499,90 ₴ / 1 кг</div>
+  </div>
+</article>
 
-<div class="card">
-  <div class="name">Prosecco Frizzante Сухе (Закарпаття)</div>
-  <div class="price">144,99 ₴ / 1 кг</div>
-</div>
+<article class="card featured-dish">
+  <img class="dish-photo" src="prosecco.jpg" alt="Prosecco Frizzante сухе, Закарпаття" loading="lazy" width="900" height="900">
+  <div class="dish-content">
+    <div class="name">Prosecco Frizzante Сухе (Закарпаття)</div>
+    <p class="dish-description">Біле сухе ігристе вино Frizzante із легким свіжим смаком.</p>
+    <p class="dish-meta">1 кг</p>
+    <div class="price">144,99 ₴ / 1 кг</div>
+  </div>
+</article>
 <div class="title" id="pizza">🍕 Піца
 </div>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="marharyta-pitsa.jpg" alt="Піца Маргарита" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Маргарита</div>
+<p class="dish-meta">30 см · 590 г</p>
+<p class="dish-description">Сир моцарела, соус маринара, базилік, томати, соус песто, прованські трави</p>
 <div class="price">219 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="milano-pitsa.jpg" alt="Піца Мілано" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Мілано</div>
+<p class="dish-meta">30 см · орієнтовна вага 650 г</p>
+<p class="dish-description">Сир моцарела, ковбаса мілано, соус маринара</p>
 <div class="price">239 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="spokusa-pitsa.jpg" alt="Піца Спокуса" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">СПОКУСА 🌶️</div>
+<p class="dish-meta">30 см · орієнтовна вага 650 г</p>
+<p class="dish-description">Соус американо, сир, курка, цибуля, гриби, ананас, халапеньйо, кукурудза, соус теріякі</p>
 <div class="price">229 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="soniachna-kurka-pitsa.jpg" alt="Піца Сонячна Курка" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Сонячна Курка</div>
+<p class="dish-meta">30 см · орієнтовна вага 650 г</p>
+<p class="dish-description">Соус вершковий, сир моцарела, сир чеддер, сир пармезан, томати, курка, рукола</p>
 <div class="price">239 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="tsezar-pitsa.jpg" alt="Піца Цезар" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Цезар</div>
+<p class="dish-meta">30 см · орієнтовна вага 650 г</p>
+<p class="dish-description">Сир моцарела, куряча грудка, пармезан, перепелині яйця, томати, салат айсберг, прованські трави, бекон, соус вершковий, соус Цезар</p>
 <div class="price">269 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="karbonara-pitsa.jpg" alt="Піца Карбонара" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Карбонара</div>
+<p class="dish-meta">30 см · орієнтовна вага 650 г</p>
+<p class="dish-description">Сир моцарела, бекон, шинка, перепелині яйця, цибуля марс, рукола, прованські трави, соус бешамель</p>
 <div class="price">249 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="chotyry-miasa.jpg" alt="Піца Чотири м'яса" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Чотири м'яса</div>
+<p class="dish-meta">30 см · орієнтовна вага 650 г</p>
+<p class="dish-description">Сир моцарела, шинка, салямі, бекон, копчена курка, томати, зелень, соус американо</p>
 <div class="price">239 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="diablo.jpg" alt="Піца Діабло" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Діабло 🌶️</div>
+<p class="dish-meta">30 см · орієнтовна вага 650 г</p>
+<p class="dish-description">Сир моцарела, пепероні, дорблю, пармезан, халапеньйо, соус маринара, соус шрірача, маслини</p>
 <div class="price">249 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="zhulien.jpg" alt="Піца Жульєн" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Жульєн</div>
+<p class="dish-meta">30 см · орієнтовна вага 650 г</p>
+<p class="dish-description">Сир моцарела, цибуля Марс, копчена курка, гриби, соус вершковий</p>
 <div class="price">239 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="myslyvska.jpg" alt="Піца Мисливська" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Мисливська</div>
+<p class="dish-meta">30 см · орієнтовна вага 650 г</p>
+<p class="dish-description">Сир моцарела, мисливські ковбаски, томати, маринована цибуля Марс, салямі, соус американо, гриби</p>
 <div class="price">239 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="sweet-chicken.jpg" alt="Піца Sweet Chicken" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Sweet Chicken</div>
+<p class="dish-meta">30 см · 690 г</p>
+<p class="dish-description">Соус вершковий, сир моцарела, маринована цибуля Марс, гриби, маринована копчена курка, солодкий соус чилі</p>
 <div class="price">249 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="peperoni.jpg" alt="Пепероні" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Пепероні 🌶️</div>
+<p class="dish-meta">30 см · орієнтовна вага 650 г</p>
+<p class="dish-description">Сир моцарела, соус маринара, пепероні</p>
 <div class="price">249 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="miasna-feieriia.jpg" alt="Піца М'ясна Феєрія" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">М'ясна Феєрія 🌶️</div>
+<p class="dish-meta">30 см · 790 г</p>
+<p class="dish-description">Соус маринара, сир моцарела, сир чеддер, пепероні, шинка, мисливські ковбаски, кукурудза, цибуля Марс, соус барбекю</p>
 <div class="price">279 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="vershkova-z-bekonom-ta-hrybamy.jpg" alt="Піца Вершкова з беконом та грибами" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Вершкова з беконом та грибами</div>
+<p class="dish-meta">30 см · орієнтовна вага 650 г</p>
+<p class="dish-description">Гриби, бекон, карамелізована цибуля Марс, моцарела, рукола, пармезан, вершки, соус авторський</p>
 <div class="price">269 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="chotyry-syra.jpg" alt="Піца Чотири Сира" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Чотири Сира</div>
+<p class="dish-meta">30 см · орієнтовна вага 650 г</p>
+<p class="dish-description">Пармезан, сир горгонзола, сир моцарела, сир гауда, соус вершковий</p>
 <div class="price">249 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="peperoni-di-bosco.jpg" alt="Піца Пепероні Di Bosco" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Пепероні Di Bosco 🌶️</div>
+<p class="dish-meta">30 см · орієнтовна вага 650 г</p>
+<p class="dish-description">Соус барбекю, сир моцарела, пепероні, мисливські ковбаски, гриби, цибуля Марс, перець болгарський, гірчиця американська</p>
 <div class="price">279 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="syrna-z-kurkoiu.jpg" alt="Піца Сирна з куркою" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Сирна з куркою</div>
+<p class="dish-meta">30 см · орієнтовна вага 650 г</p>
+<p class="dish-description">Моцарела, вершки, філадельфія, чеддер, курка, томат, рукола, пармезан</p>
 <div class="price">239 ₴</div>
 </div>
+</article>
 
-<div class="card">
+<article class="card featured-dish">
+<img class="dish-photo" src="havaiska.jpg" alt="Піца Гавайська" loading="lazy" width="800" height="800">
+<div class="dish-content">
 <div class="name">Гавайська</div>
+<p class="dish-meta">30 см · орієнтовна вага 650 г</p>
+<p class="dish-description">Сир моцарела, соус вершковий, ананас, копчена курка</p>
 <div class="price">239 ₴</div>
+</div>
+</article>
+</section>
+
+<section class="delivery-zones" id="delivery-zones">
+<div class="delivery-zones-panel">
+<div class="contacts-kicker">Доставка ELVO</div>
+<h2>Зони доставки</h2>
+<p class="delivery-zones-intro">Карта показує орієнтовні зони навколо ELVO CAFE на вул. Урлівській, 11/44. Під час оформлення остаточна зона визначатиметься за автомобільним маршрутом до будинку.</p>
+<p class="delivery-change"><strong>До 1 вересня:</strong> у межах 3 км доставляє кур’єр ELVO за тарифами, вказаними нижче. Якщо адреса далі 3 км — запропонуємо Uklon або самовивіз.<br><strong>З 1 вересня:</strong> доставка на будь-яку відстань виконується тільки через Uklon. Вартість розраховується сервісом Uklon та сплачується клієнтом окремо. Самовивіз також доступний.</p>
+<div class="delivery-map-grid">
+<div id="delivery-map" role="img" aria-label="Карта зон доставки ELVO CAFE"></div>
+<div class="delivery-legend">
+<div class="zone-row"><i class="zone-color zone-green"></i><div><strong>До 1 км — 100 ₴</strong><span>Без мінімальної суми замовлення</span></div></div>
+<div class="zone-row"><i class="zone-color zone-yellow"></i><div><strong>Від 1 до 2 км — 150 ₴</strong><span>Мінімальне замовлення 400 ₴</span></div></div>
+<div class="zone-row"><i class="zone-color zone-orange"></i><div><strong>Від 2 до 3 км — 200 ₴</strong><span>Мінімальне замовлення 400 ₴</span></div></div>
+<div class="zone-row"><i class="zone-color zone-dark"></i><div><strong>Далі 3 км</strong><span>До 1 вересня — доставка через Uklon або самовивіз</span></div></div>
+<p class="delivery-note">Якщо замовлення на відстані понад 1 км менше 400 ₴, сайт запропонує додати страви або обрати самовивіз.</p>
+</div>
+</div>
 </div>
 </section>
 
@@ -1345,6 +1789,26 @@ ELVO CAFE • KYIV
 </div>
 </section>
 
+<button class="cart-fab" id="cart-open" type="button" aria-controls="cart-drawer" aria-expanded="false">
+🛒 Кошик <span class="cart-count" id="cart-count">0</span>
+</button>
+<div class="cart-backdrop" id="cart-backdrop"></div>
+<aside class="cart-drawer" id="cart-drawer" aria-hidden="true" aria-label="Кошик замовлення">
+<div class="cart-head">
+<h2>Ваше замовлення</h2>
+<button class="cart-close" id="cart-close" type="button" aria-label="Закрити кошик">×</button>
+</div>
+<div class="cart-items" id="cart-items"></div>
+<div class="cart-footer">
+<div class="cart-total"><span>Разом</span><strong id="cart-total">0 ₴</strong></div>
+<p class="cart-note">Онлайн-оплату підключимо пізніше. Зараз замовлення можна узгодити телефоном.</p>
+<div class="cart-actions">
+<button class="cart-clear" id="cart-clear" type="button">Очистити</button>
+<a class="cart-call" href="tel:+380681284268">Зателефонувати</a>
+</div>
+</div>
+</aside>
+
 <nav class="mobile-actions" aria-label="Швидкі дії">
 <a href="tel:+380681284268">Подзвонити</a>
 <a href="https://www.google.com/maps/search/?api=1&amp;query=%D0%B2%D1%83%D0%BB.%20%D0%A3%D1%80%D0%BB%D1%96%D0%B2%D1%81%D1%8C%D0%BA%D0%B0%2C%2011%2F44%2C%20%D0%9A%D0%B8%D1%97%D0%B2" target="_blank" rel="noopener">Маршрут</a>
@@ -1374,6 +1838,7 @@ ELVO CAFE • KYIV
 <li><a href="tel:+380681284268">+38 (068) 128-42-68</a></li>
 <li><a href="https://www.instagram.com/elvocafe_/" target="_blank" rel="noopener">Instagram · @elvocafe_</a></li>
 <li>вул. Урлівська, 11/44</li>
+<li>Продавець: ФОП Губська Е.О., РНОКПП 3153222122</li>
 </ul>
 </div>
 </div>
@@ -1383,7 +1848,19 @@ ELVO CAFE • KYIV
 </div>
 </footer>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
+const deliveryMapElement = document.getElementById('delivery-map');
+if (deliveryMapElement && window.L) {
+  const cafe = [50.40741, 30.61903];
+  const deliveryMap = L.map(deliveryMapElement, {scrollWheelZoom:false}).setView(cafe, 13.7);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19, attribution:'&copy; OpenStreetMap'}).addTo(deliveryMap);
+  L.circle(cafe,{radius:3000,color:'#e78532',fillColor:'#e78532',fillOpacity:.10,weight:2}).addTo(deliveryMap);
+  L.circle(cafe,{radius:2000,color:'#e3bf3f',fillColor:'#e3bf3f',fillOpacity:.12,weight:2}).addTo(deliveryMap);
+  L.circle(cafe,{radius:1000,color:'#43c66d',fillColor:'#43c66d',fillOpacity:.16,weight:2}).addTo(deliveryMap);
+  L.marker(cafe).addTo(deliveryMap).bindPopup('<strong>ELVO CAFE</strong><br>вул. Урлівська, 11/44').openPopup();
+}
+
 const categoryLinks = [...document.querySelectorAll('.category-bar a')];
 const categoryHeadings = categoryLinks
   .map(link => document.querySelector(link.getAttribute('href')))
@@ -1393,75 +1870,17 @@ const menuSearch = document.querySelector('#menu-search-input');
 const searchStatus = document.querySelector('#search-status');
 const menuCards = [...document.querySelectorAll('#menu .card')];
 const openStatuses = [...document.querySelectorAll('[data-hours]')];
-
-const updateOpenStatus = () => {
-  const parts = new Intl.DateTimeFormat('uk-UA', {
-    timeZone: 'Europe/Kyiv',
-    hour: '2-digit',
-    minute: '2-digit',
-    hourCycle: 'h23'
-  }).formatToParts(new Date());
-  const hour = Number(parts.find(part => part.type === 'hour').value);
-  const minute = Number(parts.find(part => part.type === 'minute').value);
-  const currentMinutes = hour * 60 + minute;
-
-  openStatuses.forEach(status => {
-    const [openHour, openMinute] = status.dataset.open.split(':').map(Number);
-    const [closeHour, closeMinute] = status.dataset.close.split(':').map(Number);
-    const opensAt = openHour * 60 + openMinute;
-    const closesAt = closeHour * 60 + closeMinute;
-    const isOpen = currentMinutes >= opensAt && currentMinutes < closesAt;
-
-    status.textContent = isOpen ? 'Відчинено зараз' : 'Зачинено зараз';
-    status.classList.toggle('is-open', isOpen);
-  });
-};
-
-updateOpenStatus();
-setInterval(updateOpenStatus, 60000);
-
-menuSearch.addEventListener('input', () => {
-  const query = menuSearch.value.trim().toLocaleLowerCase('uk');
-  let visibleCount = 0;
-
-  menuCards.forEach(card => {
-    const matches = !query || card.textContent.toLocaleLowerCase('uk').includes(query);
-    card.classList.toggle('search-hidden', !matches);
-    if (matches) visibleCount += 1;
-  });
-
-  if (!query) searchStatus.textContent = '';
-  else if (visibleCount) searchStatus.textContent = `Знайдено позицій: ${visibleCount}`;
-  else searchStatus.textContent = 'Нічого не знайдено. Спробуйте іншу назву.';
-});
-
-const updateNavigation = () => {
-  const marker = window.scrollY + 190;
-  let activeId = categoryHeadings[0]?.id;
-
-  categoryHeadings.forEach(heading => {
-    if (heading.offsetTop <= marker) activeId = heading.id;
-  });
-
-  categoryLinks.forEach(link => {
-    const isActive = link.getAttribute('href') === `#${activeId}`;
-    link.classList.toggle('active', isActive);
-    if (isActive) link.setAttribute('aria-current', 'true');
-    else link.removeAttribute('aria-current');
-  });
-
-  backToTop.classList.toggle('visible', window.scrollY > 650);
-};
-
-window.addEventListener('scroll', updateNavigation, { passive: true });
-window.addEventListener('resize', updateNavigation);
-updateNavigation();
-
-const CART_KEY = 'elvo-cart';
-const cartItemsRoot = document.querySelector('#cart-items');
+const cartOpen = document.querySelector('#cart-open');
+const cartClose = document.querySelector('#cart-close');
+const cartDrawer = document.querySelector('#cart-drawer');
+const cartBackdrop = document.querySelector('#cart-backdrop');
+const cartItems = document.querySelector('#cart-items');
+const cartCount = document.querySelector('#cart-count');
 const cartTotal = document.querySelector('#cart-total');
-const clearCartButton = document.querySelector('#clear-cart');
+const cartClear = document.querySelector('#cart-clear');
 const checkoutButton = document.querySelector('#checkout-button');
+const CART_KEY = 'elvo-cart';
+const menuProducts = new Map();
 
 function parsePrice(value) {
   if (value == null || value === '') return 0;
@@ -1498,10 +1917,15 @@ function saveCart(cart) {
 function renderCart() {
   const cart = loadCart();
 
-  if (!cartItemsRoot) return;
+  if (cartCount) {
+    const count = cart.reduce((sum, item) => sum + Number(item.quantity || 1), 0);
+    cartCount.textContent = String(count);
+  }
+
+  if (!cartItems) return;
 
   if (!cart.length) {
-    cartItemsRoot.innerHTML = '<div class="empty-cart">Кошик порожній. Додайте страву з меню.</div>';
+    cartItems.innerHTML = '<div class="empty-cart">Кошик порожній. Додайте страву з меню.</div>';
     if (cartTotal) {
       cartTotal.textContent = '0 ₴';
       cartTotal.dataset.value = '0';
@@ -1515,7 +1939,7 @@ function renderCart() {
 
   const total = cart.reduce((sum, item) => sum + Number(item.price) * Number(item.quantity || 1), 0);
 
-  cartItemsRoot.innerHTML = cart.map((item) => `
+  cartItems.innerHTML = cart.map((item) => `
     <div class="cart-item" data-name="${item.name}">
       <div class="cart-item-name">${item.name}</div>
       <div class="cart-item-meta">
@@ -1543,11 +1967,13 @@ function renderCart() {
 function addToCart(itemName, price) {
   const cart = loadCart();
   const existing = cart.find(item => item.name === itemName);
+
   if (existing) {
     existing.quantity = Number(existing.quantity || 1) + 1;
   } else {
     cart.push({ name: itemName, price: Number(price || 0), quantity: 1 });
   }
+
   saveCart(cart);
   renderCart();
 }
@@ -1574,12 +2000,14 @@ function clearCart() {
 }
 
 function bindCartActions() {
-  cartItemsRoot?.addEventListener('click', (event) => {
+  cartItems?.addEventListener('click', (event) => {
     const actionButton = event.target.closest('[data-action]');
     if (!actionButton) return;
+
     const name = String(actionButton.dataset.name || '');
     const action = actionButton.dataset.action;
     if (!name) return;
+
     if (action === 'increase') {
       updateCartQuantity(name, 1);
     } else if (action === 'decrease') {
@@ -1587,17 +2015,19 @@ function bindCartActions() {
     }
   });
 
-  clearCartButton?.addEventListener('click', clearCart);
+  cartClear?.addEventListener('click', clearCart);
 
   checkoutButton?.addEventListener('click', () => {
     if (!loadCart().length) {
       alert('Кошик порожній. Додайте хоча б одну страву.');
       return;
     }
+
     if (typeof window.elvoPayCart === 'function') {
       window.elvoPayCart(checkoutButton);
       return;
     }
+
     document.querySelector('#order')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 }
@@ -1618,8 +2048,8 @@ function bindMenuCards() {
       event.stopPropagation();
       addToCart(name, price);
     });
-    card.appendChild(button);
 
+    card.appendChild(button);
     card.style.cursor = 'pointer';
     card.addEventListener('click', (event) => {
       if (event.target.closest('.add-to-cart')) return;
@@ -1627,6 +2057,95 @@ function bindMenuCards() {
     });
   });
 }
+
+const updateOpenStatus = () => {
+  const parts = new Intl.DateTimeFormat('uk-UA', {
+    timeZone: 'Europe/Kyiv',
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23'
+  }).formatToParts(new Date());
+  const hour = Number(parts.find(part => part.type === 'hour').value);
+  const minute = Number(parts.find(part => part.type === 'minute').value);
+  const currentMinutes = hour * 60 + minute;
+
+  openStatuses.forEach(status => {
+    const [openHour, openMinute] = status.dataset.open.split(':').map(Number);
+    const [closeHour, closeMinute] = status.dataset.close.split(':').map(Number);
+    const opensAt = openHour * 60 + openMinute;
+    const closesAt = closeHour * 60 + closeMinute;
+    const isOpen = currentMinutes >= opensAt && currentMinutes < closesAt;
+
+    status.textContent = isOpen ? 'Відчинено зараз' : 'Зачинено зараз';
+    status.classList.toggle('is-open', isOpen);
+  });
+};
+
+const setCartOpen = isOpen => {
+  if (cartDrawer) {
+    cartDrawer.classList.toggle('is-open', isOpen);
+    cartDrawer.setAttribute('aria-hidden', String(!isOpen));
+  }
+  if (cartBackdrop) {
+    cartBackdrop.classList.toggle('is-open', isOpen);
+  }
+  if (cartOpen) {
+    cartOpen.setAttribute('aria-expanded', String(isOpen));
+  }
+  document.body.classList.toggle('cart-open', isOpen);
+};
+
+if (cartOpen) cartOpen.addEventListener('click', () => setCartOpen(true));
+if (cartClose) cartClose.addEventListener('click', () => setCartOpen(false));
+if (cartBackdrop) cartBackdrop.addEventListener('click', () => setCartOpen(false));
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') setCartOpen(false);
+});
+
+menuSearch?.addEventListener('input', () => {
+  const query = menuSearch.value.trim().toLocaleLowerCase('uk');
+  let visibleCount = 0;
+
+  menuCards.forEach(card => {
+    const matches = !query || card.textContent.toLocaleLowerCase('uk').includes(query);
+    card.classList.toggle('search-hidden', !matches);
+    if (matches) visibleCount += 1;
+  });
+
+  if (!query) {
+    if (searchStatus) searchStatus.textContent = '';
+  } else if (visibleCount) {
+    if (searchStatus) searchStatus.textContent = `Знайдено позицій: ${visibleCount}`;
+  } else if (searchStatus) {
+    searchStatus.textContent = 'Нічого не знайдено. Спробуйте іншу назву.';
+  }
+});
+
+const updateNavigation = () => {
+  const marker = window.scrollY + 190;
+  let activeId = categoryHeadings[0]?.id;
+
+  categoryHeadings.forEach(heading => {
+    if (heading.offsetTop <= marker) activeId = heading.id;
+  });
+
+  categoryLinks.forEach(link => {
+    const isActive = link.getAttribute('href') === `#${activeId}`;
+    link.classList.toggle('active', isActive);
+    if (isActive) link.setAttribute('aria-current', 'true');
+    else link.removeAttribute('aria-current');
+  });
+
+  if (backToTop) {
+    backToTop.classList.toggle('visible', window.scrollY > 650);
+  }
+};
+
+window.addEventListener('scroll', updateNavigation, { passive: true });
+window.addEventListener('resize', updateNavigation);
+updateNavigation();
+updateOpenStatus();
+setInterval(updateOpenStatus, 60000);
 
 bindMenuCards();
 bindCartActions();
