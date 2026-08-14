@@ -49,8 +49,7 @@ module.exports = async function handler(req, res) {
     order_id: orderId,
     result_url: `${publicSiteUrl}/?payment=return&order_id=${encodeURIComponent(orderId)}`,
     server_url: `${siteUrl}/api/liqpay-callback`,
-    language: 'uk',
-    sandbox: 1
+    language: 'uk'
   };
   const data = encode(payload);
   const signature = sign(data, privateKey);
@@ -82,7 +81,6 @@ module.exports = async function handler(req, res) {
     checkoutUrl: 'https://www.liqpay.ua/api/3/checkout',
     data,
     signature,
-    orderId,
-    sandbox: true
+    orderId
   });
 };

@@ -54,7 +54,7 @@ module.exports = async function handler(req, res) {
       order_id: orderId,
       result_url: `${process.env.SITE_URL}/?payment=return&order_id=${encodeURIComponent(orderId)}`,
       server_url: `${process.env.SITE_URL}/api/liqpay-callback`,
-      sandbox: 1
+
     };
     const data = Buffer.from(JSON.stringify(payload)).toString('base64');
     json(res, 200, { orderId, data, signature: liqpaySignature(data), checkoutUrl: 'https://www.liqpay.ua/api/3/checkout' });
