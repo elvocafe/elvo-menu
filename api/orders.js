@@ -1,8 +1,7 @@
-const { json, allowRequest, body, supabase, adminAllowed } = require('./_lib');
+const { json, allowRequest, body, supabase } = require('./_lib');
 
 module.exports = async function handler(req, res) {
   if (!allowRequest(req, res)) return;
-  if (!adminAllowed(req)) return json(res, 401, { error: 'Невірний PIN' });
   try {
     if (req.method === 'GET') {
       const rows = await supabase('orders?select=*&order=created_at.desc&limit=100');
