@@ -4,7 +4,7 @@ module.exports = async function handler(req, res) {
   if (!allowRequest(req, res)) return;
   try {
     if (req.method === 'GET') {
-      const rows = await supabase('orders?select=*&order=created_at.desc&limit=100');
+      const rows = await supabase('orders?select=*&status=not.in.(completed,cancelled)&order=created_at.desc&limit=100');
       return json(res, 200, rows);
     }
     if (req.method === 'PATCH') {
