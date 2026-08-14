@@ -10,7 +10,7 @@ module.exports = async function handler(req, res) {
     }
     if (req.method === 'PATCH') {
       const input = await body(req);
-      const allowed = ['new', 'kitchen', 'ready', 'courier', 'completed', 'cancelled'];
+      const allowed = ['new', 'paid', 'accepted', 'kitchen', 'ready', 'courier', 'completed', 'cancelled'];
       if (!allowed.includes(input.status)) return json(res, 400, { error: 'Невірний статус' });
       const rows = await supabase(`orders?order_id=eq.${encodeURIComponent(input.orderId || '')}`, {
         method: 'PATCH',
