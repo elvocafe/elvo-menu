@@ -11,6 +11,10 @@ function encode(payload) {
 function send(res, status, body) {
   res.statusCode = status;
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  const origin = res.getHeader('Access-Control-Allow-Origin');
+  if (!origin) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+  }
   res.end(JSON.stringify(body));
 }
 

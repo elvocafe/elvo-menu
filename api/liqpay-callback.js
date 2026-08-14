@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const { sign, send, saveOrder } = require('./_liqpay');
+const { allowRequest } = require('./_lib');
 
 function parseCallbackBody(reqBody) {
   if (!reqBody) return {};
@@ -25,6 +26,7 @@ function parseCallbackBody(reqBody) {
 }
 
 module.exports = async function handler(req, res) {
+  allowRequest(req, res);
   if (req.method !== 'POST') return send(res, 405, { error: 'Method not allowed' });
   const privateKey = process.env.LIQPAY_PRIVATE_KEY;
   const body = parseCallbackBody(req.body);

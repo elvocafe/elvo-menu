@@ -77,7 +77,10 @@
         body: JSON.stringify(order)
       });
       const payment = await response.json();
-      if (!response.ok) throw new Error(payment.error || 'Payment error');
+      if (!response.ok) throw new Error(payment.error || `HTTP ${response.status}`);
+      if (!payment.checkoutUrl || !payment.data || !payment.signature) {
+        throw new Error('Invalid payment response: missing required fields');
+      }
       const form = document.createElement('form');
       form.method = 'POST';
       form.action = payment.checkoutUrl;
@@ -90,7 +93,8 @@
       });
       document.body.appendChild(form);
       form.submit();
-    } catch (_) {
+    } catch (err) {
+      console.error('Payment error:', err.message);
       alert('Оплата тимчасово недоступна. Будь ласка, спробуйте ще раз.');
       button.disabled = false;
       button.textContent = old;
