@@ -356,6 +356,9 @@ text-align:center;
 .order-kicker{color:#d4af37;font-size:11px;font-weight:800;letter-spacing:5px;text-transform:uppercase;}
 .order-chooser h2{margin:10px 0 12px;font-size:clamp(32px,6vw,50px);line-height:1.08;color:#f5f1e7;}
 .order-copy{max-width:650px;margin:0 auto 28px;color:#aaa69c;font-size:16px;line-height:1.65;}
+.payment-status{max-width:650px;margin:0 auto 22px;padding:12px 18px;border:1px solid rgba(212,175,55,.30);border-radius:12px;background:rgba(212,175,55,.08);color:#f0dd9b;font-size:14px;font-weight:700;display:none;}
+.payment-status:not(:empty){display:block;}
+.payment-status.error{border-color:rgba(255,120,120,.35);background:rgba(120,20,20,.15);color:#f7b5b5;}
 .order-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;}
 .order-option{padding:30px 24px;border:1px solid rgba(255,255,255,.09);border-radius:22px;background:rgba(255,255,255,.025);}
 .order-icon{display:block;margin-bottom:12px;font-size:36px;}
@@ -660,6 +663,165 @@ color:#e8c655;
 text-shadow:0 0 20px rgba(212,175,55,.17);
 }
 
+#menu .card .add-to-cart{
+margin-top:12px;
+padding:9px 14px;
+border:1px solid rgba(212,175,55,.35);
+border-radius:999px;
+background:rgba(212,175,55,.08);
+color:#f2d56f;
+font:inherit;
+font-size:13px;
+font-weight:800;
+letter-spacing:.5px;
+cursor:pointer;
+transition:.2s ease;
+align-self:flex-start;
+}
+
+#menu .card .add-to-cart:hover,
+#menu .card .add-to-cart:focus-visible{
+background:#d4af37;
+color:#17120a;
+outline:none;
+}
+
+.cart-panel{
+max-width:1100px;
+margin:0 auto 20px;
+padding:24px 22px 20px;
+border:1px solid rgba(216,177,67,.3);
+border-radius:24px;
+background:linear-gradient(145deg,#191919,#111);
+box-shadow:0 18px 48px rgba(0,0,0,.3);
+}
+
+.cart-header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+margin-bottom:12px;
+}
+
+.cart-title{
+color:#efd36e;
+font-size:26px;
+font-weight:800;
+}
+
+.cart-clear{
+padding:8px 12px;
+border:1px solid rgba(255,255,255,.12);
+border-radius:999px;
+background:transparent;
+color:#d8d0c2;
+font:inherit;
+font-size:12px;
+font-weight:700;
+cursor:pointer;
+}
+
+.cart-items{
+display:grid;
+gap:10px;
+}
+
+.cart-item{
+display:grid;
+grid-template-columns:minmax(0,1fr) auto auto;
+align-items:center;
+gap:12px;
+padding:14px 16px;
+border:1px solid rgba(255,255,255,.08);
+border-radius:16px;
+background:rgba(255,255,255,.02);
+}
+
+.cart-item-name{
+color:#f4efe8;
+font-size:17px;
+font-weight:700;
+line-height:1.35;
+}
+
+.cart-item-meta{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.cart-qty{
+display:inline-flex;
+align-items:center;
+border:1px solid rgba(212,175,55,.28);
+border-radius:999px;
+overflow:hidden;
+background:rgba(212,175,55,.05);
+}
+
+.qty-btn{
+width:30px;
+height:30px;
+border:0;
+background:transparent;
+color:#efd36e;
+font-size:20px;
+font-weight:800;
+cursor:pointer;
+}
+
+.qty-value{
+min-width:28px;
+text-align:center;
+color:#f1ebdf;
+font-size:14px;
+font-weight:800;
+}
+
+.cart-item-price{
+color:#e2bf4d;
+font-weight:800;
+font-size:18px;
+white-space:nowrap;
+}
+
+.cart-total-row{
+margin-top:18px;
+padding-top:16px;
+border-top:1px solid rgba(255,255,255,.08);
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px;
+color:#f2efe9;
+font-size:18px;
+font-weight:800;
+}
+
+.cart-total-row strong{
+color:#efd36e;
+font-size:26px;
+}
+
+.empty-cart{
+padding:18px 8px 8px;
+color:#9f9a90;
+font-size:15px;
+}
+
+.cart-action-row{
+margin-top:18px;
+display:flex;
+justify-content:flex-end;
+}
+
+.cart-checkout{
+margin-top:0;
+padding:14px 28px;
+font-size:16px;
+}
+
 @media(max-width:700px){
 
 #menu{
@@ -700,6 +862,35 @@ position:static;
 transform:none;
 font-size:18px;
 }
+
+#menu .card .add-to-cart{
+margin-top:0;
+}
+
+.cart-panel{
+padding:18px 16px 16px;
+border-radius:20px;
+}
+
+.cart-title{font-size:22px;}
+
+.cart-item{
+grid-template-columns:1fr;
+align-items:flex-start;
+}
+
+.cart-item-meta{
+justify-content:space-between;
+}
+
+.cart-total-row{
+font-size:16px;
+}
+
+.cart-total-row strong{font-size:22px;}
+
+.cart-action-row{justify-content:stretch;}
+.cart-checkout{width:100%;}
 
 }
 
@@ -800,19 +991,20 @@ ELVO CAFE • KYIV
 <div class="order-panel">
 <div class="order-kicker">Замовлення ELVO CAFE</div>
 <h2>Як бажаєте отримати замовлення?</h2>
-<p class="order-copy">Оберіть зручний спосіб. Поки ми підключаємо кошик та онлайн-оплату, замовлення приймаємо телефоном.</p>
+<p class="order-copy">Після вибору способу замовлення ви будете перенаправлені на безпечну сторінку LiqPay для оплати.</p>
+<div id="payment-status" class="payment-status" aria-live="polite"></div>
 <div class="order-grid">
 <article class="order-option">
 <span class="order-icon" aria-hidden="true">🚗</span>
 <h3>Доставка</h3>
-<p>Зателефонуйте, уточніть адресу та умови доставки.</p>
-<a class="button" href="tel:+380681284268">Замовити доставку</a>
+<p>Оформіть замовлення онлайн і оплатіть карткою без зайвих дзвінків.</p>
+<a class="button" href="#" data-liqpay-button data-order-type="delivery">Оплатити онлайн</a>
 </article>
 <article class="order-option">
 <span class="order-icon" aria-hidden="true">🥡</span>
 <h3>Самовивіз</h3>
-<p>Замовте заздалегідь і заберіть у кафе на вул. Урлівській, 11/44.</p>
-<a class="button secondary" href="tel:+380681284268">Замовити самовивіз</a>
+<p>Забронюйте позиції онлайн, оплатіть карткою та заберіть замовлення в кафе.</p>
+<a class="button secondary" href="#" data-liqpay-button data-order-type="pickup">Оплатити онлайн</a>
 </article>
 </div>
 </div>
@@ -1110,6 +1302,21 @@ ELVO CAFE • KYIV
 </div>
 </section>
 
+<aside class="cart-panel" id="cart-panel" data-order-root="true" aria-live="polite">
+  <div class="cart-header">
+    <div class="cart-title">Кошик</div>
+    <button type="button" class="cart-clear" id="clear-cart">Очистити</button>
+  </div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="cart-total-row">
+    <span>Разом</span>
+    <strong id="cart-total" data-value="0">0 ₴</strong>
+  </div>
+  <div class="cart-action-row">
+    <button type="button" class="button cart-checkout" id="checkout-button">Оформити замовлення</button>
+  </div>
+</aside>
+
 <section class="contacts" id="contacts">
 <div class="contacts-panel">
 <div class="contacts-kicker">Завітайте до нас</div>
@@ -1249,7 +1456,183 @@ const updateNavigation = () => {
 window.addEventListener('scroll', updateNavigation, { passive: true });
 window.addEventListener('resize', updateNavigation);
 updateNavigation();
+
+const CART_KEY = 'elvo-cart';
+const cartItemsRoot = document.querySelector('#cart-items');
+const cartTotal = document.querySelector('#cart-total');
+const clearCartButton = document.querySelector('#clear-cart');
+const checkoutButton = document.querySelector('#checkout-button');
+
+function parsePrice(value) {
+  if (value == null || value === '') return 0;
+  const text = String(value).trim();
+  const [firstPart] = text.split('/');
+  const normalized = firstPart.replace(/[^\d,.-]/g, '').replace(',', '.');
+  const number = Number(normalized);
+  return Number.isFinite(number) ? number : 0;
+}
+
+function formatPrice(value) {
+  return `${Math.round((Number(value) || 0) * 100) / 100} ₴`;
+}
+
+function loadCart() {
+  try {
+    const raw = localStorage.getItem(CART_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed.filter(item => item && item.name && Number(item.price) > 0) : [];
+  } catch (_) {
+    return [];
+  }
+}
+
+function saveCart(cart) {
+  try {
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  } catch (_) {
+    // ignore storage issues
+  }
+}
+
+function renderCart() {
+  const cart = loadCart();
+
+  if (!cartItemsRoot) return;
+
+  if (!cart.length) {
+    cartItemsRoot.innerHTML = '<div class="empty-cart">Кошик порожній. Додайте страву з меню.</div>';
+    if (cartTotal) {
+      cartTotal.textContent = '0 ₴';
+      cartTotal.dataset.value = '0';
+    }
+    if (checkoutButton) {
+      checkoutButton.disabled = true;
+      checkoutButton.textContent = 'Оформити замовлення';
+    }
+    return;
+  }
+
+  const total = cart.reduce((sum, item) => sum + Number(item.price) * Number(item.quantity || 1), 0);
+
+  cartItemsRoot.innerHTML = cart.map((item) => `
+    <div class="cart-item" data-name="${item.name}">
+      <div class="cart-item-name">${item.name}</div>
+      <div class="cart-item-meta">
+        <div class="cart-qty" aria-label="Змінити кількість ${item.name}">
+          <button type="button" class="qty-btn" data-action="decrease" data-name="${item.name}">−</button>
+          <span class="qty-value">${item.quantity || 1}</span>
+          <button type="button" class="qty-btn" data-action="increase" data-name="${item.name}">+</button>
+        </div>
+        <div class="cart-item-price">${formatPrice((Number(item.price) || 0) * (Number(item.quantity) || 1))}</div>
+      </div>
+    </div>
+  `).join('');
+
+  if (cartTotal) {
+    cartTotal.textContent = formatPrice(total);
+    cartTotal.dataset.value = String(total);
+  }
+
+  if (checkoutButton) {
+    checkoutButton.disabled = false;
+    checkoutButton.textContent = 'Оплатити LiqPay';
+  }
+}
+
+function addToCart(itemName, price) {
+  const cart = loadCart();
+  const existing = cart.find(item => item.name === itemName);
+  if (existing) {
+    existing.quantity = Number(existing.quantity || 1) + 1;
+  } else {
+    cart.push({ name: itemName, price: Number(price || 0), quantity: 1 });
+  }
+  saveCart(cart);
+  renderCart();
+}
+
+function updateCartQuantity(itemName, delta) {
+  const cart = loadCart();
+  const idx = cart.findIndex(entry => entry.name === itemName);
+  if (idx === -1) return;
+
+  const nextQty = Number(cart[idx].quantity || 1) + delta;
+  if (nextQty <= 0) {
+    cart.splice(idx, 1);
+  } else {
+    cart[idx].quantity = nextQty;
+  }
+
+  saveCart(cart);
+  renderCart();
+}
+
+function clearCart() {
+  saveCart([]);
+  renderCart();
+}
+
+function bindCartActions() {
+  cartItemsRoot?.addEventListener('click', (event) => {
+    const actionButton = event.target.closest('[data-action]');
+    if (!actionButton) return;
+    const name = String(actionButton.dataset.name || '');
+    const action = actionButton.dataset.action;
+    if (!name) return;
+    if (action === 'increase') {
+      updateCartQuantity(name, 1);
+    } else if (action === 'decrease') {
+      updateCartQuantity(name, -1);
+    }
+  });
+
+  clearCartButton?.addEventListener('click', clearCart);
+
+  checkoutButton?.addEventListener('click', () => {
+    if (!loadCart().length) {
+      alert('Кошик порожній. Додайте хоча б одну страву.');
+      return;
+    }
+    if (typeof window.elvoPayCart === 'function') {
+      window.elvoPayCart(checkoutButton);
+      return;
+    }
+    document.querySelector('#order')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+}
+
+function bindMenuCards() {
+  document.querySelectorAll('#menu .card').forEach((card) => {
+    const name = (card.querySelector('.name')?.textContent || '').trim();
+    const price = parsePrice(card.querySelector('.price')?.textContent || '0');
+
+    if (!name) return;
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'add-to-cart';
+    button.textContent = 'Додати';
+    button.setAttribute('aria-label', `Додати ${name} до кошика`);
+    button.addEventListener('click', (event) => {
+      event.stopPropagation();
+      addToCart(name, price);
+    });
+    card.appendChild(button);
+
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', (event) => {
+      if (event.target.closest('.add-to-cart')) return;
+      addToCart(name, price);
+    });
+  });
+}
+
+bindMenuCards();
+bindCartActions();
+renderCart();
 </script>
 
+  <script src="/liqpay-payment.js" defer></script>
 </body>
 </html>
