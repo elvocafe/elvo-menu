@@ -66,13 +66,40 @@
     const setState=(text,kind='')=>{connectionStatus.textContent=text;statusBox.className=`status ${kind}`.trim()};
 
     const setAppBadge=count=>{
-      document.title=count?`(${count}) Замовлення ELVO`:'Замовлення ELVO';
-      if('setAppBadge' in navigator){count?navigator.setAppBadge(count).catch(()=>{}):navigator.clearAppBadge().catch(()=>{})}
+      const safeCount=Math.max(0,Math.round(Number(count)||0));
+      document.title=safeCount?`(${safeCount}) Замовлення ELVO`:'Замовлення ELVO';
+      if('setAppBadge' in navigator){safeCount?navigator.setAppBadge(safeCount).catch(()=>{}):navigator.clearAppBadge().catch(()=>{})}
     };
 
+    // Single persistent AudioContext: browsers suspend audio until a user gesture unlocks it,
+    // so reuse one context instead of creating/closing a new one per notification.
+    let audioCtx=null;
+    const ensureAudioContext=()=>{
+      const AudioContextClass=window.AudioContext||window.webkitAudioContext;
+      if(!AudioContextClass)return null;
+      if(!audioCtx)audioCtx=new AudioContextClass();
+      return audioCtx;
+    };
+    const unlockAudio=()=>{const ctx=ensureAudioContext();if(ctx&&ctx.state==='suspended')ctx.resume().catch(()=>{})};
+    ['pointerdown','keydown','click'].forEach(evt=>document.addEventListener(evt,unlockAudio,{passive:true}));
+
     const playOrderSound=()=>{
-      const AudioContext=window.AudioContext||window.webkitAudioContext;if(!AudioContext)return;
-      const context=new AudioContext();[0,0.22,0.44].forEach((delay,index)=>{const oscillator=context.createOscillator();const gain=context.createGain();oscillator.type='sine';oscillator.frequency.value=660+(index*110);gain.gain.setValueAtTime(.0001,context.currentTime+delay);gain.gain.exponentialRampToValueAtTime(.22,context.currentTime+delay+.02);gain.gain.exponentialRampToValueAtTime(.0001,context.currentTime+delay+.18);oscillator.connect(gain).connect(context.destination);oscillator.start(context.currentTime+delay);oscillator.stop(context.currentTime+delay+.2)});setTimeout(()=>context.close(),900);
+      const context=ensureAudioContext();
+      if(!context)return;
+      const play=()=>{
+        [0,0.22,0.44].forEach((delay,index)=>{
+          const oscillator=context.createOscillator();
+          const gain=context.createGain();
+          oscillator.type='sine';oscillator.frequency.value=660+(index*110);
+          gain.gain.setValueAtTime(.0001,context.currentTime+delay);
+          gain.gain.exponentialRampToValueAtTime(.32,context.currentTime+delay+.02);
+          gain.gain.exponentialRampToValueAtTime(.0001,context.currentTime+delay+.22);
+          oscillator.connect(gain).connect(context.destination);
+          oscillator.start(context.currentTime+delay);oscillator.stop(context.currentTime+delay+.25);
+        });
+      };
+      if(context.state==='suspended')context.resume().then(play).catch(()=>{});
+      else play();
     };
 
     const statusLabel=order=>{
